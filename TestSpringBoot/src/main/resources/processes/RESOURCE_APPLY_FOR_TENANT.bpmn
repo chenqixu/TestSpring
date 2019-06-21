@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef">
+  <process id="RESOURCE_APPLY_FOR_TENANT" name="一级租户资源申请流程" isExecutable="true">
+    <documentation>一级租户资源申请流程</documentation>
+    <startEvent id="startEvent" name="开始"></startEvent>
+    <userTask id="usetTask1" name="资源运营者审批" activiti:assignee="9990158">
+      <extensionElements>
+        <modeler:initiator-can-complete xmlns:modeler="http://activiti.com/modeler"><![CDATA[false]]></modeler:initiator-can-complete>
+      </extensionElements>
+    </userTask>
+    <endEvent id="endEvent" name="结束"></endEvent>
+    <exclusiveGateway id="gateway1" name="gateway1"></exclusiveGateway>
+    <sequenceFlow id="flow1" name="flow1" sourceRef="startEvent" targetRef="usetTask1"></sequenceFlow>
+    <sequenceFlow id="flow2" name="flow2" sourceRef="usetTask1" targetRef="gateway1"></sequenceFlow>
+    <sequenceFlow id="flow3" name="flow3" sourceRef="gateway1" targetRef="userTask2">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${agree=='1'}]]></conditionExpression>
+    </sequenceFlow>
+    <userTask id="userTask2" name="资源配置审批" activiti:assignee="9990888">
+      <extensionElements>
+        <modeler:initiator-can-complete xmlns:modeler="http://activiti.com/modeler"><![CDATA[false]]></modeler:initiator-can-complete>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="gateflow3" name="gateflow3" sourceRef="gateway1" targetRef="endEvent">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${agree=='0'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="sid-F1B955E5-4D9C-4E0A-865A-C3D89D66FE9A" sourceRef="userTask2" targetRef="endEvent"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_RESOURCE_APPLY_FOR_TENANT">
+    <bpmndi:BPMNPlane bpmnElement="RESOURCE_APPLY_FOR_TENANT" id="BPMNPlane_RESOURCE_APPLY_FOR_TENANT">
+      <bpmndi:BPMNShape bpmnElement="startEvent" id="BPMNShape_startEvent">
+        <omgdc:Bounds height="30.0" width="30.0" x="30.0" y="145.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usetTask1" id="BPMNShape_usetTask1">
+        <omgdc:Bounds height="80.0" width="100.0" x="105.0" y="120.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endEvent" id="BPMNShape_endEvent">
+        <omgdc:Bounds height="28.0" width="28.0" x="570.0" y="146.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="gateway1" id="BPMNShape_gateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="255.0" y="140.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="userTask2" id="BPMNShape_userTask2">
+        <omgdc:Bounds height="80.0" width="100.0" x="345.0" y="120.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="60.0" y="160.0"></omgdi:waypoint>
+        <omgdi:waypoint x="105.0" y="160.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="205.0" y="160.0"></omgdi:waypoint>
+        <omgdi:waypoint x="255.0" y="160.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="295.0" y="160.0"></omgdi:waypoint>
+        <omgdi:waypoint x="345.0" y="160.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="gateflow3" id="BPMNEdge_gateflow3">
+        <omgdi:waypoint x="275.0" y="180.0"></omgdi:waypoint>
+        <omgdi:waypoint x="275.0" y="266.0"></omgdi:waypoint>
+        <omgdi:waypoint x="584.0" y="266.0"></omgdi:waypoint>
+        <omgdi:waypoint x="584.0" y="174.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-F1B955E5-4D9C-4E0A-865A-C3D89D66FE9A" id="BPMNEdge_sid-F1B955E5-4D9C-4E0A-865A-C3D89D66FE9A">
+        <omgdi:waypoint x="445.0" y="160.0"></omgdi:waypoint>
+        <omgdi:waypoint x="570.0" y="160.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
