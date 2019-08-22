@@ -37,4 +37,8 @@ public class UserStatus implements RowMapper<UserStatus> {
 		us.setUptime(rs.getString("uptime"));
 		return us;
 	}
+	@Override
+	public String toString(){
+		return "msisdn："+msisdn+"，lacci："+lacci+"，uptime："+uptime;
+	}
 }
