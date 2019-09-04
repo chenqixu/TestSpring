@@ -73,9 +73,25 @@ public class SessionServer {
         userInfo2.setMail_addr("13511111111@139.com");
         userInfo2.setToken_code("token_code");
 
+        // 俞章健 1001531
+        UserInfo userInfo3 = new UserInfo();
+        userInfo3.setUser_id("1001531");
+        userInfo3.setUser_name("俞章健");
+        userInfo3.setNick_name("1001531");
+        userInfo3.setOrg_id("9990001");
+        userInfo3.setOrg_name("省公司业务支撑系统部");
+        userInfo3.setHome_city("590");
+        userInfo3.setHome_city_desc("福建省");
+        userInfo3.setHome_county("591");
+        userInfo3.setHome_county_desc("福州市");
+        userInfo3.setMobile_phone("13511111111");
+        userInfo3.setMail_addr("13511111111@139.com");
+        userInfo3.setToken_code("token_code");
+
         userInfoMap.put(userInfo.getUser_id(), userInfo);
         userInfoMap.put(userInfo1.getUser_id(), userInfo1);
         userInfoMap.put(userInfo2.getUser_id(), userInfo2);
+        userInfoMap.put(userInfo3.getUser_id(), userInfo3);
     }
 
     @RequestMapping("/queryUserInfo")
