@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.activiti.org/processdef" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" expressionLanguage="http://www.w3.org/1999/XPath" id="m1561013763892" name="" targetNamespace="http://www.activiti.org/processdef" typeLanguage="http://www.w3.org/2001/XMLSchema">
+  <process id="JSTORM_RESOURCE_APPLY_FOR_TENANT_CALL" isClosed="false" isExecutable="true" name="一级租户资源申请流程" processType="None">
+    <documentation id="JSTORM_RESOURCE_APPLY_FOR_TENANT_CALL_D_1"><![CDATA[一级租户资源申请流程]]></documentation>
+    <startEvent id="startEvent" name="开始"/>
+    <userTask activiti:assignee="1001531" activiti:exclusive="true" id="usetTask1" name="资源运营者审批">
+      <extensionElements>
+        <modeler:initiator-can-complete xmlns:modeler="http://activiti.com/modeler"><![CDATA[false]]></modeler:initiator-can-complete>
+      </extensionElements>
+    </userTask>
+    <endEvent id="endEvent" name="结束"/>
+    <sequenceFlow id="flow1" name="flow1" sourceRef="startEvent" targetRef="usetTask1"/>
+    <userTask activiti:assignee="9810001" activiti:exclusive="true" id="userTask2" name="接口调用确认"/>
+    <exclusiveGateway gatewayDirection="Unspecified" id="gateway1" name="gateway1"/>
+    <sequenceFlow id="_4" sourceRef="usetTask1" targetRef="gateway1"/>
+    <sequenceFlow id="_5" name="flow1" sourceRef="gateway1" targetRef="userTask2">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${agree=='1'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_6" name="gateflow1" sourceRef="gateway1" targetRef="endEvent">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${agree=='0'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_7" sourceRef="userTask2" targetRef="endEvent"/>
+  </process>
+  <bpmndi:BPMNDiagram documentation="background=#3C3F41;count=1;horizontalcount=1;orientation=0;width=842.4;height=1195.2;imageableWidth=832.4;imageableHeight=1185.2;imageableX=5.0;imageableY=5.0" id="Diagram-_1" name="New Diagram">
+    <bpmndi:BPMNPlane bpmnElement="JSTORM_RESOURCE_APPLY_FOR_TENANT_CALL">
+      <bpmndi:BPMNShape bpmnElement="startEvent" id="Shape-startEvent">
+        <omgdc:Bounds height="32.0" width="32.0" x="30.0" y="145.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usetTask1" id="Shape-usetTask1">
+        <omgdc:Bounds height="80.0" width="100.0" x="195.0" y="120.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="80.0" width="100.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endEvent" id="Shape-endEvent">
+        <omgdc:Bounds height="32.0" width="32.0" x="640.0" y="145.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="userTask2" id="Shape-userTask2">
+        <omgdc:Bounds height="75.0" width="115.0" x="435.0" y="125.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="75.0" width="115.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="gateway1" id="Shape-gateway1" isMarkerVisible="false">
+        <omgdc:Bounds height="32.0" width="32.0" x="345.0" y="290.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1" sourceElement="startEvent" targetElement="usetTask1">
+        <omgdi:waypoint x="62.0" y="161.0"/>
+        <omgdi:waypoint x="195.0" y="160.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_4" id="BPMNEdge__4" sourceElement="usetTask1" targetElement="_3">
+        <omgdi:waypoint x="295.0" y="160.0"/>
+        <omgdi:waypoint x="345.0" y="306.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_5" id="BPMNEdge__5" sourceElement="_3" targetElement="_2">
+        <omgdi:waypoint x="377.0" y="306.0"/>
+        <omgdi:waypoint x="435.0" y="162.5"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_6" id="BPMNEdge__6" sourceElement="_3" targetElement="endEvent">
+        <omgdi:waypoint x="361.0" y="322.0"/>
+        <omgdi:waypoint x="654.0" y="374.0"/>
+        <omgdi:waypoint x="654.0" y="176.87450786638755"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_7" id="BPMNEdge__7" sourceElement="_2" targetElement="endEvent">
+        <omgdi:waypoint x="550.0" y="162.5"/>
+        <omgdi:waypoint x="640.0" y="161.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
