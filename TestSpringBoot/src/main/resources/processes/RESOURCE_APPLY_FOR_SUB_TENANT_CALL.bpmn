@@ -8,12 +8,19 @@
     <sequenceFlow id="flowTask1" name="flowTask1" sourceRef="startEvent" targetRef="userTask1"/>
     <userTask activiti:assignee="9810001" activiti:exclusive="true" id="userTask2" name="接口调用确认"/>
     <exclusiveGateway gatewayDirection="Unspecified" id="gateway1" name="gateway1"/>
-    <sequenceFlow id="_4" sourceRef="userTask2" targetRef="endEvent"/>
     <sequenceFlow id="_5" sourceRef="userTask1" targetRef="gateway1"/>
     <sequenceFlow id="_6" name="flow1" sourceRef="gateway1" targetRef="userTask2">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${agree=='1'}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="_7" name="gateflow1" sourceRef="gateway1" targetRef="endEvent">
+    <sequenceFlow id="_2" name="flow2" sourceRef="gateway1" targetRef="endEvent">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${agree=='0'}]]></conditionExpression>
+    </sequenceFlow>
+    <exclusiveGateway gatewayDirection="Unspecified" id="_3" name="gateway2"/>
+    <sequenceFlow id="_4" sourceRef="userTask2" targetRef="_3"/>
+    <sequenceFlow id="_7" name="resultflow1" sourceRef="_3" targetRef="endEvent">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${agree=='1'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_8" name="resultflow2" sourceRef="_3" targetRef="userTask1">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${agree=='0'}]]></conditionExpression>
     </sequenceFlow>
   </process>
@@ -32,7 +39,7 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="endEvent" id="Shape-endEvent">
-        <omgdc:Bounds height="32.0" width="32.0" x="620.0" y="165.0"/>
+        <omgdc:Bounds height="32.0" width="32.0" x="875.0" y="160.0"/>
         <bpmndi:BPMNLabel>
           <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
@@ -49,21 +56,42 @@
           <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge bpmnElement="_4" id="BPMNEdge__4" sourceElement="_2" targetElement="endEvent">
-        <omgdi:waypoint x="550.0" y="182.5"/>
-        <omgdi:waypoint x="620.0" y="181.0"/>
+      <bpmndi:BPMNShape bpmnElement="_3" id="Shape-_3" isMarkerVisible="false">
+        <omgdc:Bounds height="32.0" width="32.0" x="680.0" y="170.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flowTask1" id="BPMNEdge_flowTask1" sourceElement="startEvent" targetElement="userTask1">
+        <omgdi:waypoint x="132.0" y="179.0"/>
+        <omgdi:waypoint x="195.0" y="178.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_2" id="BPMNEdge__2" sourceElement="gateway1" targetElement="endEvent">
+        <omgdi:waypoint x="356.0" y="282.0"/>
+        <omgdi:waypoint x="665.0" y="385.0"/>
+        <omgdi:waypoint x="891.0" y="192.0"/>
         <bpmndi:BPMNLabel>
           <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_5" id="BPMNEdge__5" sourceElement="userTask1" targetElement="_3">
+      <bpmndi:BPMNEdge bpmnElement="_4" id="BPMNEdge__4" sourceElement="userTask2" targetElement="_3">
+        <omgdi:waypoint x="550.0" y="182.5"/>
+        <omgdi:waypoint x="680.0" y="186.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_5" id="BPMNEdge__5" sourceElement="userTask1" targetElement="gateway1">
         <omgdi:waypoint x="295.0" y="178.0"/>
         <omgdi:waypoint x="340.0" y="266.0"/>
         <bpmndi:BPMNLabel>
           <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_6" id="BPMNEdge__6" sourceElement="_3" targetElement="_2">
+      <bpmndi:BPMNEdge bpmnElement="_6" id="BPMNEdge__6" sourceElement="gateway1" targetElement="userTask2">
         <omgdi:waypoint x="372.0" y="266.0"/>
         <omgdi:waypoint x="440.0" y="182.5"/>
         <bpmndi:BPMNLabel>
@@ -71,18 +99,19 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="_7" id="BPMNEdge__7" sourceElement="_3" targetElement="endEvent">
-        <omgdi:waypoint x="356.0" y="282.0"/>
-        <omgdi:waypoint x="515.0" y="355.0"/>
-        <omgdi:waypoint x="636.0" y="197.0"/>
+        <omgdi:waypoint x="696.0" y="202.0"/>
+        <omgdi:waypoint x="780.0" y="255.0"/>
+        <omgdi:waypoint x="891.0" y="192.0"/>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="0.0" width="-28.0" x="0.0" y="25.0"/>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flowTask1" id="BPMNEdge_flowTask1" sourceElement="startEvent" targetElement="userTask1">
-        <omgdi:waypoint x="132.0" y="179.0"/>
-        <omgdi:waypoint x="195.0" y="178.0"/>
+      <bpmndi:BPMNEdge bpmnElement="_8" id="BPMNEdge__8" sourceElement="_3" targetElement="userTask1">
+        <omgdi:waypoint x="696.0" y="170.0"/>
+        <omgdi:waypoint x="460.0" y="80.0"/>
+        <omgdi:waypoint x="245.0" y="138.0"/>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>

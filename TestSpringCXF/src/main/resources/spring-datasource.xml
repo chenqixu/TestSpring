@@ -128,4 +128,59 @@
 	<bean id="namedParameterJdbcTemplateHive" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
 		<constructor-arg ref="dataSourceHive" />
 	</bean>
+
+	<!-- Druid -->
+	<bean id="slf4j-filter" class="com.alibaba.druid.filter.logging.Slf4jLogFilter">
+		<property name="statementExecutableSqlLogEnable" value="true"/>
+	</bean>
+	<bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
+		<property name="slowSqlMillis" value="3000"/>
+		<property name="logSlowSql" value="true"/>
+	</bean>
+
+	<bean id="abstractDruidDataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<!-- 连接池连接数初始值 -->
+		<property name="initialSize" value="${jdbc.initialSize}" />
+		<!-- 连接池最大连接数量 -->
+		<property name="maxActive" value="${jdbc.maxActive}" />
+		<!-- 连接池最大空闲值，释放多余的不用的连接，释放到多少为止, 新版本该参数已弃用
+		<property name="maxIdle" value="${jdbc.maxIdle}" />-->
+		<!-- 连接池最小空闲值，当空闲连接数小于这个数的时候，连接池就会去申请一些连接以免高峰期来不及申请 -->
+		<property name="minIdle" value="${jdbc.minIdle}" />
+		<!-- 获取连接时最大等待时间，单位毫秒。 -->
+		<property name="maxWait" value="${jdbc.maxWait}" />
+		<!-- 是否缓存preparedStatement，支持游标的数据库有性能提升。 -->
+		<property name="poolPreparedStatements" value="${jdbc.poolPreparedStatements}" />
+		<property name="validationQuery" value="${jdbc.validationQuery}" />
+		<property name="testWhileIdle" value="${jdbc.testWhileIdle}" />
+		<property name="testOnBorrow" value="${jdbc.testOnBorrow}" />
+		<property name="testOnReturn" value="${jdbc.testOnReturn}" />
+		<!-- Mysql数据库不需要配置
+        <property name="maxPoolPreparedStatementPerConnectionSize" value="${jdbc.maxPoolPreparedStatementPerConnectionSize}" />
+        -->
+		<!-- 配置监控统计拦截的filters -->
+		<property name="proxyFilters">
+			<list>
+				<ref bean="stat-filter"/>
+				<ref bean="slf4j-filter"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="dataSourceDruid" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close" parent="abstractDataSource">
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>
+	<!-- 配置jdbcTemplate -->
+	<bean id="jdbcTemplateDruid" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSourceDruid" />
+	</bean>
+	<!-- 配置namedParameterJdbcTemplate -->
+	<bean id="namedParameterJdbcTemplateDruid" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+		<constructor-arg ref="dataSourceDruid" />
+	</bean>
+
+	<!-- 提供对lob字段的支持 -->
+	<bean id="lobHandler" class="org.springframework.jdbc.support.lob.DefaultLobHandler" lazy-init="true"/>
 </beans> 
