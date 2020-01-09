@@ -1,5 +1,7 @@
 package com.cqx.testspringboot.session;
 
+import com.cqx.testspringboot.activiti.dao.CommonBaseDao;
+import com.cqx.testspringboot.session.model.TenantInfo;
 import com.cqx.testspringboot.session.model.UserInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,7 +9,9 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,6 +28,9 @@ public class SessionServer {
 
     private static Map<String, UserInfo> userInfoMap = new HashMap<>();
     private static UserInfo userInfo;
+
+    @Resource(name = "com.cqx.testspringboot.activiti.dao.CommonBaseDao")
+    protected CommonBaseDao dao;
 
     static {
         // 默认用户
@@ -103,5 +110,25 @@ public class SessionServer {
         UserInfo _userInfo = userInfoMap.get(userId);
         if (_userInfo != null) userInfo = _userInfo;
         logger.info("setUserInfo：{}，result：{}", userId, userInfo);
+    }
+
+    @RequestMapping(value = "/queryTenantsByTenantLevel/{tenant_level}", method = {RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<TenantInfo> queryTenantsByTenantLevel(@PathVariable String tenant_level) {
+        List<TenantInfo> tenantInfos;
+        String sql = "select tenant_id,tenant_name,tenant_ename,tenant_level,p_tenant_id from sm2_tenant where tenant_level=:tenant_level";
+        Map<String, String> params = new HashMap<>();
+        params.put("tenant_level", tenant_level);
+        tenantInfos = dao.query(sql, params, TenantInfo.class);
+        return tenantInfos;
+    }
+
+    @RequestMapping(value = "/queryTenantsByPTenantId/{p_tenant_id}", method = {RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<TenantInfo> queryTenantsByPTenantId(@PathVariable String p_tenant_id) {
+        List<TenantInfo> tenantInfos;
+        String sql = "select tenant_id,tenant_name,tenant_ename,tenant_level,p_tenant_id from sm2_tenant where p_tenant_id=:p_tenant_id";
+        Map<String, String> params = new HashMap<>();
+        params.put("p_tenant_id", p_tenant_id);
+        tenantInfos = dao.query(sql, params, TenantInfo.class);
+        return tenantInfos;
     }
 }
