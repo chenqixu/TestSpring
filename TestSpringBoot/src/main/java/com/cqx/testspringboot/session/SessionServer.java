@@ -5,10 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +17,7 @@ import java.util.Map;
  */
 @EnableAutoConfiguration
 @RestController
+@CrossOrigin
 @RequestMapping("${cmcc.web.servlet-path}/session")
 public class SessionServer {
     private static final Logger logger = LoggerFactory.getLogger(SessionServer.class);
