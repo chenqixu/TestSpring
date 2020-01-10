@@ -1,6 +1,8 @@
 package com.cqx.testspringboot.session;
 
 import com.cqx.testspringboot.activiti.dao.CommonBaseDao;
+import com.cqx.testspringboot.session.dao.BaseDemoDao;
+import com.cqx.testspringboot.session.dao.DemoDao;
 import com.cqx.testspringboot.session.model.TenantInfo;
 import com.cqx.testspringboot.session.model.UserInfo;
 import org.slf4j.Logger;
@@ -31,6 +33,12 @@ public class SessionServer {
 
     @Resource(name = "com.cqx.testspringboot.activiti.dao.CommonBaseDao")
     protected CommonBaseDao dao;
+
+//    @Resource(name = "com.cqx.testspringboot.session.dao.DemoDao")
+//    protected DemoDao demoDao;
+//
+//    @Resource(name = "com.cqx.testspringboot.session.dao.BaseDemoDao")
+//    protected BaseDemoDao baseDemoDao;
 
     static {
         // 默认用户
@@ -118,6 +126,14 @@ public class SessionServer {
         String sql = "select tenant_id,tenant_name,tenant_ename,tenant_level,p_tenant_id from sm2_tenant where tenant_level=:tenant_level";
         Map<String, String> params = new HashMap<>();
         params.put("tenant_level", tenant_level);
+        // Resource要在org.springframework.aop.framework.CglibAopProxy才会生成
+//        logger.info("demoDao-0：{}，demoDao.jdbcTemplate：{}，demoDao.namedParameterJdbcTemplate：{}",
+//                demoDao, demoDao.jdbcTemplate, demoDao.namedParameterJdbcTemplate);
+//        demoDao.test();
+//        logger.info("demoDao-1：{}，demoDao.jdbcTemplate：{}，demoDao.namedParameterJdbcTemplate：{}",
+//                demoDao, demoDao.jdbcTemplate, demoDao.namedParameterJdbcTemplate);
+//        logger.info("baseDemoDao-0：{}，baseDemoDao.jdbcTemplate：{}，baseDemoDao.namedParameterJdbcTemplate：{}",
+//                baseDemoDao, baseDemoDao.getJdbcTemplate(), baseDemoDao.getNamedParameterJdbcTemplate());
         tenantInfos = dao.query(sql, params, TenantInfo.class);
         return tenantInfos;
     }
