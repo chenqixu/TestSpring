@@ -16,7 +16,7 @@
       		<param-value>classpath:resources/spring/spring-edc-mvc.xml</param-value>
     	</init-param>
     	<load-on-startup>1</load-on-startup>
-	</servlet>   
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>SpringMVC</servlet-name>
     	<url-pattern>*.do</url-pattern>
@@ -33,7 +33,7 @@
 	</context-param>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:resources/spring/spring-base.xml</param-value>
+		<param-value>classpath:resources/spring/spring-base1.xml</param-value>
 	</context-param>
   
 	<!-- listener -->

@@ -52,7 +52,7 @@ http://cxf.apache.org/schemas/jaxws.xsd
 		</property>
 	</bean>
 	<!-- 启动jmx服务 -->
-	<bean id="server"  class="org.springframework.jmx.support.ConnectorServerFactoryBean" 
+	<bean id="server"  class="org.springframework.jmx.support.ConnectorServerFactoryBean"
 	    depends-on="registry">
 	    <property name="objectName">
 	        <value>connector:name=rmi</value>

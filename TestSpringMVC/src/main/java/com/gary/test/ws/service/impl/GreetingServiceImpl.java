@@ -28,10 +28,10 @@ public class GreetingServiceImpl implements GreetingService {
 		System.out.println("com.gary.test.ws.service.GreetingService:"+userName);
 		GreetingClient gc = new GreetingClient();
 		gc.client();
-		// Ê¹ÓÃ×¢Èë»ñÈ¡ÅäÖÃÎÄ¼ş£¬ĞèÒªSpring-beans 3.0.5ÒÔÉÏ°æ±¾
+		// ä½¿ç”¨æ³¨å…¥è·å–é…ç½®æ–‡ä»¶ï¼Œéœ€è¦Spring-beans 3.0.5ä»¥ä¸Šç‰ˆæœ¬
 		System.out.println("[Common]"+configInfo.getDefaultReqSource());
 		
-		// Ê¹ÓÃspringframeworkµÄResourceºÍPropertiesLoaderUtilsÀ´¼ÓÔØÅäÖÃÎÄ¼ş£¬Spring-beans 2.5.6¾Í¿ÉÒÔÊ¹ÓÃ
+		// ä½¿ç”¨springframeworkçš„Resourceå’ŒPropertiesLoaderUtilsæ¥åŠ è½½é…ç½®æ–‡ä»¶ï¼ŒSpring-beans 2.5.6å°±å¯ä»¥ä½¿ç”¨
 		Resource resource = new ClassPathResource("/resources/config/common.properties");
 		try {
 			Properties props = PropertiesLoaderUtils.loadProperties(resource);
@@ -40,10 +40,10 @@ public class GreetingServiceImpl implements GreetingService {
 			e.printStackTrace();
 		}
 		
-		System.out.println("Òì²½µ÷ÓÃÏß³Ì begin");
-		// Òì²½µ÷ÓÃÏß³Ì
+		System.out.println("å¼‚æ­¥è°ƒç”¨çº¿ç¨‹ begin");
+		// å¼‚æ­¥è°ƒç”¨çº¿ç¨‹
 		new DownloadThread().start();
-		System.out.println("Òì²½µ÷ÓÃÏß³Ì end");
+		System.out.println("å¼‚æ­¥è°ƒç”¨çº¿ç¨‹ end");
 		
 		return "Hello " + userName + ", currentTime is " + Calendar.getInstance().getTime(); 
 	}

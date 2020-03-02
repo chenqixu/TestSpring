@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Parameter-Info>
+    <item>
+        <name>WS_SVC_CONF_PROJECT_NAME</name>
+        <value>TestSpringCXFSvc</value>
+    </item>
+</Parameter-Info>
