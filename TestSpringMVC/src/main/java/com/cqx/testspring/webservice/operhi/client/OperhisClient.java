@@ -6,14 +6,19 @@ import com.cqx.testspring.webservice.operhis.model.OperhisReqObject;
 import com.cqx.testspring.webservice.operhis.model.OperhisRespObject;
 import com.cqx.testspring.webservice.operhis.service.OperhisServiceInf;
 
-import javax.annotation.Resource;
-
 /**
  * OperhisClient
  *
  * @author chenqixu
  */
 public class OperhisClient extends BaseClient {
+
+    static {
+        System.setProperty("javax.net.ssl.trustStore", "d:\\Soft\\Apache\\tomcat\\apache-tomcat-6.0.44\\conf\\tomcat.keystore"); //key路径
+        System.setProperty("javax.net.ssl.trustStorePassword", "123456");//密码
+        System.setProperty("java.protocol.handler.pkgs", "com.sun.net.ssl.internal.www.protocol");
+        java.security.Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
+    }
 
     public <T, E> E exec(String mgt_name, String func_name, T t) {
         Object resp_obj = null;

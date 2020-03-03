@@ -118,6 +118,12 @@
             <artifactId>spring-aop</artifactId>
             <version>${org.springframework-version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${org.springframework-version}</version>
+            <scope>test</scope>
+        </dependency>
 
         <!-- cxf -->
         <dependency>
@@ -264,6 +270,20 @@
             <groupId>com.cqx</groupId>
             <artifactId>TestSpringCXF</artifactId>
             <version>1.0.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.geronimo.specs/geronimo-servlet_3.0_spec -->
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-servlet_3.0_spec</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>*</artifactId>
+                    <groupId>*</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 </project>
