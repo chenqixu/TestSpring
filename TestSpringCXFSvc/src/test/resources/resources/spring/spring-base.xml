@@ -11,6 +11,10 @@
     <!-- 自动扫描bean配置的目录 -->
     <context:component-scan base-package="com.cqx.testspring.webservice.*"/>
 
+    <!-- 配置数据源与事务信息 -->
+    <import resource="classpath:resources/spring/spring-datasource.xml" />
+    <!--<import resource="classpath:resources/spring/spring-transaction.xml" />-->
+
     <!--<bean name="LoginServiceImpl" class="com.cqx.testspring.webservice.operhis.service.LoginServiceImpl"></bean>-->
 
     <!-- 导入cxf配置 -->

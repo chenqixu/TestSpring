@@ -19,8 +19,8 @@ import org.springframework.web.servlet.handler.DispatcherServletWebRequest;
 
 import javax.annotation.Resource;
 
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration(locations = {"classpath:resources/spring/spring-*.xml"})
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:resources/spring/spring-*.xml"})
 public class BaseServiceMgtTest {
 
 //    @Resource

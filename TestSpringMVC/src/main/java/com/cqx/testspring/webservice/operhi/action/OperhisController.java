@@ -1,5 +1,6 @@
 package com.cqx.testspring.webservice.operhi.action;
 
+import com.cqx.testspring.webservice.common.BaseController;
 import com.cqx.testspring.webservice.operhi.client.OperhisClient;
 import com.cqx.testspring.webservice.operhis.model.javabean.LoginBean;
 import com.cqx.testspring.webservice.operhis.model.javabean.NullResultBean;
@@ -16,13 +17,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Scope("prototype")
 @Controller
 @RequestMapping(value = "/goto")
-public class OperhisController {
+public class OperhisController extends BaseController {
 
     private OperhisClient operhisClient = new OperhisClient();
 
     @RequestMapping(value = "/addOperHistory.do")
     @ResponseBody
     public NullResultBean addOperHistory(LoginBean loginBean) {//@RequestBody
+        this.getRequest().getSession().setAttribute("test1", "test1-session");
 //        OperhisClient operhisClient = new OperhisClient("LoginServiceImpl");
 //        System.out.println("[controller]" + operhisBean);
 //        OperhisResultBean operhisResultBean = operhisClient.addOperHistory(operhisBean);
