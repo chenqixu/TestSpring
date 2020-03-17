@@ -1,4 +1,4 @@
-package com.cqx.testspring.webservice.operhis.service;
+package com.cqx.testspring.webservice.login.dao;
 
 import org.springframework.stereotype.Repository;
 
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
  *
  * @author chenqixu
  */
-@Repository("com.cqx.testspring.webservice.operhis.service.LoginServiceDaoImpl")
+@Repository("com.cqx.testspring.webservice.login.dao.LoginServiceDaoImpl")
 public class LoginServiceDaoImpl {
     public void queryLogin() {
         System.out.println("queryLogin……");

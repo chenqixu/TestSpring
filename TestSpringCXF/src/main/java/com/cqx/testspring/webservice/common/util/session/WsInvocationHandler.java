@@ -8,7 +8,8 @@ import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -23,7 +24,7 @@ import java.util.Map;
  * @author chenqixu
  */
 public class WsInvocationHandler implements InvocationHandler {
-    private static Logger log = Logger.getLogger(WsInvocationHandler.class);
+    private static Logger log = LoggerFactory.getLogger(WsInvocationHandler.class);
     int receiveTimeout = 0;
     int connTimeout = 0;
     String rootElmentName = "";
@@ -135,9 +136,7 @@ public class WsInvocationHandler implements InvocationHandler {
                     return soapResponseData;
                 }
             } catch (Exception var10) {
-                log.error("address:" + this.address);
-                log.error("soapReqMsg:" + soapReqMsg);
-                log.error(var10);
+                log.error(String.format("address:%s，soapReqMsg:%s", this.address, soapReqMsg), var10);
                 var10.printStackTrace();
             }
 

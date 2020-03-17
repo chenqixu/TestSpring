@@ -10,7 +10,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.cxf.Bus;
 import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
 import org.apache.cxf.transport.servlet.CXFServlet;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 
 import javax.servlet.ServletConfig;
@@ -26,7 +27,7 @@ import java.util.Map;
  * @author chenqixu
  */
 public class CxfBusInitServlet extends CXFServlet {
-    private static final Logger logger = Logger.getLogger(CxfBusInitServlet.class);
+    private static final Logger logger = LoggerFactory.getLogger(CxfBusInitServlet.class);
     private static Map<String, Bus> BusMap = new HashMap();
     private ClassUtil classUtil = new ClassUtil();
     private WebServiceMgt webServiceMgt = new WebServiceMgtImpl();

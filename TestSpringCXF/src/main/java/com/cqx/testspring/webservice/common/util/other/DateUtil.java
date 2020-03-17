@@ -1,7 +1,8 @@
 package com.cqx.testspring.webservice.common.util.other;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -18,7 +19,7 @@ import java.util.GregorianCalendar;
  */
 public class DateUtil {
     private static Calendar curdate = Calendar.getInstance();
-    private static Logger log = Logger.getLogger(DateUtil.class);
+    private static Logger log = LoggerFactory.getLogger(DateUtil.class);
 
     public DateUtil() {
     }
@@ -330,7 +331,7 @@ public class DateUtil {
         } else {
             String sTemp = "" + iOral;
 
-            for(int i = 0; i < iLength - iIndex; ++i) {
+            for (int i = 0; i < iLength - iIndex; ++i) {
                 sTemp = "0" + sTemp;
             }
 
@@ -508,13 +509,13 @@ public class DateUtil {
             day = day - Date_Bwtween % 4 + 1;
 
             int i;
-            for(i = 0; day <= 0; ++i) {
+            for (i = 0; day <= 0; ++i) {
                 day += 4;
             }
 
             mm = mm - i - Date_Bwtween / 4;
 
-            for(i = 0; mm <= 0; ++i) {
+            for (i = 0; mm <= 0; ++i) {
                 mm += 12;
             }
 
@@ -566,11 +567,11 @@ public class DateUtil {
             int mm = cur_date / 100 % 100;
             int days = 0;
 
-            for(int i = 0; i < mm; ++i) {
+            for (int i = 0; i < mm; ++i) {
                 days += getDays(cur_date / 100);
             }
 
-            return 1.0D - 0.2D * (double)days / 365.0D;
+            return 1.0D - 0.2D * (double) days / 365.0D;
         }
     }
 

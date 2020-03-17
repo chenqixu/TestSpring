@@ -4,11 +4,12 @@ import com.cqx.testspring.webservice.common.*;
 import com.cqx.testspring.webservice.common.model.WSBean;
 import com.cqx.testspring.webservice.common.util.bean.XmlBean;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.log4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
 import java.lang.reflect.Field;
@@ -22,7 +23,7 @@ import java.util.*;
  * @author chenqixu
  */
 public class WSXmlParser {
-    private static final Logger log = Logger.getLogger(WSXmlParser.class);
+    private static final Logger log = LoggerFactory.getLogger(WSXmlParser.class);
 
     public WSXmlParser() {
     }
@@ -279,7 +280,7 @@ public class WSXmlParser {
                                 try {
                                     rowValue = getMethod.invoke(beanObj);
                                 } catch (Exception var13) {
-                                    log.info(var13.getStackTrace());
+                                    log.info(var13.getMessage(), var13.getStackTrace());
                                     rowValue = null;
                                 }
                             }

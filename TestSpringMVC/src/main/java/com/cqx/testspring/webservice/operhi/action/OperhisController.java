@@ -1,9 +1,9 @@
 package com.cqx.testspring.webservice.operhi.action;
 
 import com.cqx.testspring.webservice.common.BaseController;
-import com.cqx.testspring.webservice.operhi.client.OperhisClient;
-import com.cqx.testspring.webservice.operhis.model.javabean.LoginBean;
-import com.cqx.testspring.webservice.operhis.model.javabean.NullResultBean;
+import com.cqx.testspring.webservice.common.CommonServiceClient;
+import com.cqx.testspring.webservice.login.LoginBean;
+import com.cqx.testspring.webservice.login.NullResultBean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/goto")
 public class OperhisController extends BaseController {
 
-    private OperhisClient operhisClient = new OperhisClient();
+    private CommonServiceClient commonServiceClient = new CommonServiceClient();
 
     @RequestMapping(value = "/addOperHistory.do")
     @ResponseBody
@@ -32,7 +32,7 @@ public class OperhisController extends BaseController {
 //        return operhisResultBean;
 //        OperhisClient operhisResultBean = new OperhisClient();
 //        LoginServiceInf loginServiceInf = operhisResultBean.newInstance(LoginServiceInf.class);
-        NullResultBean nullResultBean = operhisClient.exec("LoginServiceImpl", "login", loginBean);
+        NullResultBean nullResultBean = commonServiceClient.exec("LoginServiceImpl", "login", loginBean);
         return nullResultBean;
     }
 }

@@ -1,17 +1,17 @@
-package com.cqx.testspring.webservice.operhis.model;
+package com.cqx.testspring.webservice.common.model;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
 /**
- * OperhisReqObject
+ * CommonReqObject
  *
  * @author chenqixu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "OperhisReqObject")
-public class OperhisReqObject {
+@XmlType(name = "CommonReqObject")
+public class CommonReqObject {
     private String mgt_name;
     private String func_name;
     private String req_content;

@@ -5,13 +5,14 @@ import com.cqx.testspring.webservice.common.RequestObjectIntf;
 import com.cqx.testspring.webservice.common.RespDataIntf;
 import com.cqx.testspring.webservice.common.ResponseObjectIntf;
 import com.cqx.testspring.webservice.common.model.HeaderResp20;
+import com.cqx.testspring.webservice.common.model.RequestObject;
 import com.cqx.testspring.webservice.common.model.System20;
 import com.cqx.testspring.webservice.common.model.User20;
-import com.cqx.testspring.webservice.common.model.RequestObject;
 import com.cqx.testspring.webservice.common.util.other.DateUtil;
 import com.cqx.testspring.webservice.common.util.other.SpringProperties;
 import com.cqx.testspring.webservice.common.util.session.StringUtil;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
@@ -23,7 +24,7 @@ import java.io.UnsupportedEncodingException;
  * @author chenqixu
  */
 public class MessageHandler {
-    private static Logger logger = Logger.getLogger(MessageHandler.class);
+    private static Logger logger = LoggerFactory.getLogger(MessageHandler.class);
     private static MessageHandler messageHandler;
 
     public MessageHandler() {

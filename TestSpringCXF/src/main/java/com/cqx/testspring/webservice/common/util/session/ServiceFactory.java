@@ -13,7 +13,8 @@ import org.apache.cxf.transport.http.HTTPConduit;
 import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor;
 import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -28,7 +29,7 @@ import java.util.Properties;
  * @author chenqixu
  */
 public class ServiceFactory {
-    private static Logger log = Logger.getLogger(ServiceFactory.class);
+    private static Logger log = LoggerFactory.getLogger(ServiceFactory.class);
     private static Map<String, Object> factoryMap = Collections.synchronizedMap(new HashMap());
     private static Properties noCxfClientConf = new Properties();
     private static boolean noCxfWay = false;

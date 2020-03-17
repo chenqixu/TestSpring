@@ -1,10 +1,11 @@
 package com.cqx.testspring.webservice.common.util.other;
 
-import org.apache.log4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -16,7 +17,7 @@ import java.util.Iterator;
  * @author chenqixu
  */
 public class ParameterConfig {
-    private static final Logger logger = Logger.getLogger(ParameterConfig.class);
+    private static final Logger logger = LoggerFactory.getLogger(ParameterConfig.class);
     private static HashMap<String, String> hashmap = new HashMap();
 
     public ParameterConfig() {

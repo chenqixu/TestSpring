@@ -35,8 +35,8 @@ public class WebServiceMgtImpl implements WebServiceMgt {
 //        }
 
         ServiceBean tempServiceBean = new ServiceBean();
-        tempServiceBean.setServiceImplClass("com.cqx.testspring.webservice.operhis.service.OperhisServiceImpl");
-        tempServiceBean.setServiceName("OperhisServiceInf");
+        tempServiceBean.setServiceImplClass("com.cqx.testspring.webservice.common.service.CommonServiceImpl");
+        tempServiceBean.setServiceName("CommonServiceInf");
         serviceBeanList.add(tempServiceBean);
 
         return serviceBeanList;

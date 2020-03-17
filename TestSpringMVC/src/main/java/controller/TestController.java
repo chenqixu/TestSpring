@@ -2,8 +2,6 @@ package controller;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.cqx.testspring.webservice.operhi.client.OperhisClient;
-import com.cqx.testspring.webservice.operhis.model.javabean.OperhisBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,14 +18,6 @@ public class TestController {
 	@RequestMapping("/test/login.do")
 	public String hello(Model model) {
 		model.addAttribute("greeting", "Hello Spring MVC");
-
-//		OperhisClient operhisClient = new OperhisClient();
-//		OperhisBean operhisBean = new OperhisBean();
-//		operhisBean.setUser_id("10001");
-//		operhisBean.setOper_desc("login");
-//		operhisBean.setOper_time("2020-02-28");
-//		operhisClient.addOperHistory(operhisBean);
-
 		return "loginSuccess";
 	}
 

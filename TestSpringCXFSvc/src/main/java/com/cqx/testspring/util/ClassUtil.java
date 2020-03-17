@@ -1,6 +1,7 @@
 package com.cqx.testspring.util;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -14,7 +15,7 @@ import java.util.Map;
  * @author chenqixu
  */
 public class ClassUtil {
-    private static final Logger logger = Logger.getLogger(ClassUtil.class);
+    private static final Logger logger = LoggerFactory.getLogger(ClassUtil.class);
     protected Map<String, Class<?>> classPool = Collections.synchronizedMap(new HashMap());
 
     public ClassUtil() {

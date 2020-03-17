@@ -61,6 +61,14 @@
         <url-pattern>/services/*</url-pattern>
     </servlet-mapping>
 
+    <!-- 工程初始化统一加载配置参数 -->
+    <servlet>
+        <description>工程初始化统一加载配置参数</description>
+        <servlet-name>InitActionServlet</servlet-name>
+        <servlet-class>com.cqx.testspring.servlet.InitActionServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
     <!-- filter -->
     <filter>
         <description>字符集过滤器</description>

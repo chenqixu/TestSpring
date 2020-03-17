@@ -2,7 +2,8 @@ package com.cqx.testspring.webservice.common;
 
 import com.cqx.testspring.webservice.common.model.UserInfo;
 import com.cqx.testspring.webservice.common.util.session.ServiceFactory;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.UnsupportedEncodingException;
 
@@ -12,7 +13,7 @@ import java.io.UnsupportedEncodingException;
  * @author chenqixu
  */
 public class BaseClient {
-    private Logger logger = Logger.getLogger(BaseClient.class);
+    private Logger logger = LoggerFactory.getLogger(BaseClient.class);
 
     public BaseClient() {
     }

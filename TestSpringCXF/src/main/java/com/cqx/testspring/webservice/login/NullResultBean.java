@@ -1,4 +1,4 @@
-package com.cqx.testspring.webservice.operhis.model.javabean;
+package com.cqx.testspring.webservice.login;
 
 /**
  * NullResultBean

@@ -2,7 +2,8 @@ package com.cqx.testspring.webservice.common.util.session;
 
 import com.cqx.testspring.webservice.common.model.UserInfo;
 import com.cqx.testspring.webservice.common.util.other.SpringProperties;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -12,7 +13,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  * @author chenqixu
  */
 public class SessionFactory {
-    private static Logger logger = Logger.getLogger(SessionFactory.class);
+    private static Logger logger = LoggerFactory.getLogger(SessionFactory.class);
     private static ServletRequestAttributes attrs = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 
     public SessionFactory() {
