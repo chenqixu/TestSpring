@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+</head>
+<body>
+<input id="c1" type="button" value="Click">
+<script src="../webapp/js/jquery.min.js"></script>
+<script type="application/javascript">
+    (function ($, window, document, undefined) {
+    })
+    {
+        $.fn.extend({
+            test1: function () {
+                console.log($(this).attr("id"));
+            }
+        });
+    }
+    (jQuery, window, document)
+
+    function trace(obj) {
+        console.log(obj);
+    }
+
+    // //jq初始化加载1
+    // $(document).ready(function () {
+    //     trace("jq初始化加载1");
+    // });
+    //
+    // //jq初始化加载2
+    // $(function () {
+    //     trace("jq初始化加载2");
+    // });
+    //
+    // //jq初始化加载3
+    // jQuery(function ($) {
+    //     trace("jq初始化加载3");
+    // });
+
+    //jq初始化加载4
+    (function ($) {
+        trace("jq初始化加载4");
+        $("#c1").test1();
+    })(jQuery);
+</script>
+</body>
+</html>
