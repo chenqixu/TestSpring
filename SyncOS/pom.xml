@@ -36,6 +36,13 @@
     </properties>
 
     <dependencies>
+        <!-- kafka-clients -->
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
         <!-- spring-boot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -53,13 +60,6 @@
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
             <version>2.1.8.RELEASE</version>
-        </dependency>
-
-        <!-- kafka-clients -->
-        <dependency>
-            <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka-clients</artifactId>
-            <version>1.0.0</version>
         </dependency>
 
         <!-- test -->
@@ -94,6 +94,13 @@
             </exclusions>
         </dependency>
 
+        <!-- avro -->
+        <dependency>
+            <groupId>org.apache.avro</groupId>
+            <artifactId>avro</artifactId>
+            <version>1.8.1</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -104,13 +111,13 @@
             </plugin>
         </plugins>
         <!--<resources>-->
-        <!--<resource>-->
-        <!--<filtering>true</filtering>-->
-        <!--<directory>src/main/resources</directory>-->
-        <!--<includes>-->
-        <!--<include>/**</include>-->
-        <!--</includes>-->
-        <!--</resource>-->
+            <!--<resource>-->
+                <!--<filtering>true</filtering>-->
+                <!--<directory>src/main/resources</directory>-->
+                <!--<includes>-->
+                    <!--<include>/**</include>-->
+                <!--</includes>-->
+            <!--</resource>-->
         <!--</resources>-->
     </build>
 

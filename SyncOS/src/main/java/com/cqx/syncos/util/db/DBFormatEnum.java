@@ -1,4 +1,4 @@
-package com.cqx.syncos.util;
+package com.cqx.syncos.util.db;
 
 /**
  * DateFormatEnum

@@ -1,4 +1,6 @@
-package com.cqx.syncos.util;
+package com.cqx.syncos.util.file;
+
+import com.cqx.syncos.task.cache.CacheServer;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -22,6 +24,10 @@ public class FileMangerCenter {
     private String fileName;
     private BufferedWriter writer;
     private BufferedReader reader;
+
+    public FileMangerCenter(CacheServer cacheServer) {
+        this(cacheServer.getSaveFile());
+    }
 
     public FileMangerCenter(String fileName) {
         this.fileName = fileName;

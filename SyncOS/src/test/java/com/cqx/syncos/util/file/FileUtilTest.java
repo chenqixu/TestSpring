@@ -1,6 +1,7 @@
-package com.cqx.syncos.util;
+package com.cqx.syncos.util.file;
 
 import com.cqx.syncos.task.bean.TaskInfo;
+import com.cqx.syncos.util.file.FileUtil;
 import org.junit.Test;
 
 public class FileUtilTest {

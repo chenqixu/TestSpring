@@ -1,4 +1,4 @@
-package com.cqx.syncos.util;
+package com.cqx.syncos.util.file;
 
 import com.alibaba.fastjson.JSON;
 import org.slf4j.Logger;
@@ -53,7 +53,7 @@ public class FileUtil {
     }
 
     /**
-     * 保存配置到文件
+     * 保存配置数据到文件
      *
      * @param path
      * @param data
@@ -65,6 +65,17 @@ public class FileUtil {
         } catch (IOException e) {
             logger.error("Save " + data + " To " + path + " IOException. Message:" + e.getMessage());
         }
+    }
+
+    /**
+     * 保存配置对象到文件
+     *
+     * @param path
+     * @param object
+     */
+    public static void saveConfToFile(String path, Object object) {
+        String data = JSON.toJSONString(object);
+        saveConfToFile(path, data);
     }
 
     /**

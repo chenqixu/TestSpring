@@ -1,7 +1,13 @@
 package com.cqx.syncos.task.scan;
 
 import com.cqx.syncos.task.bean.TaskInfo;
-import com.cqx.syncos.util.*;
+import com.cqx.syncos.task.cache.CacheServer;
+import com.cqx.syncos.util.DateUtil;
+import com.cqx.syncos.util.SleepUtil;
+import com.cqx.syncos.util.TimeCostUtil;
+import com.cqx.syncos.util.db.DBFormatEnum;
+import com.cqx.syncos.util.db.DBFormatUtil;
+import com.cqx.syncos.util.file.RAFFileMangerCenter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -33,25 +39,30 @@ public class ScanServer extends Thread {
     private TimeCostUtil timeCostUtil;
     private JdbcTemplate jdbcTemplate;
     private String at_time;//上一次处理时间
-    private String scan_cache_path;//扫描缓存
-    private FileMangerCenter fileMangerCenter;
+    private CacheServer cacheServer;
+    //    private FileMangerCenter fileMangerCenter;
+    private RAFFileMangerCenter rafFileMangerCenter;
+    private String value_split;
 
-    public ScanServer(TaskInfo taskInfo) {
+    public ScanServer(CacheServer cacheServer) {
+        this(cacheServer.getTaskInfo());
+        this.cacheServer = cacheServer;
+    }
+
+    private ScanServer(TaskInfo taskInfo) {
         this.taskInfo = taskInfo;
         this.timeCostUtil = new TimeCostUtil();
         //传入上一次处理时间
         this.at_time = taskInfo.getAt_time();
+        this.value_split = taskInfo.getScan_split().replace("\\", "");
     }
 
-    public void init(JdbcTemplate jdbcTemplate, String data_path) {
+    public void init(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        String table_path = FileUtil.endWith(data_path) + taskInfo.getSrc_name();
-        String scan_path = FileUtil.endWith(table_path) + "scan";
-        scan_cache_path = FileUtil.endWith(scan_path) + "scan.cache";
-        String scan_save_file = FileUtil.endWith(scan_path) + "res000001.log";
-        fileMangerCenter = new FileMangerCenter(scan_save_file);
+//        fileMangerCenter = new FileMangerCenter(cacheServer);
         try {
-            fileMangerCenter.initWriter();
+            rafFileMangerCenter = new RAFFileMangerCenter(cacheServer);
+//            fileMangerCenter.initWriter();
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
         }
@@ -74,15 +85,16 @@ public class ScanServer extends Thread {
                         if (j == fields.length - 1) {
                             sb.append(queryList.get(i).get(fields[j]));
                         } else {
-                            sb.append(queryList.get(i).get(fields[j])).append(taskInfo.getScan_split());
+                            sb.append(queryList.get(i).get(fields[j])).append(value_split);
                         }
                     }
                     try {
-                        if (i == queryList.size() - 1) {//最后一条强制刷新
-                            fileMangerCenter.write(sb.toString(), true);
-                        } else {
-                            fileMangerCenter.write(sb.toString());
-                        }
+//                        if (i == queryList.size() - 1) {//最后一条强制刷新
+//                            fileMangerCenter.write(sb.toString(), true);
+//                        } else {
+//                            fileMangerCenter.write(sb.toString());
+//                        }
+                        rafFileMangerCenter.write(sb.toString());
                     } catch (IOException e) {
                         logger.error(e.getMessage(), e);
                     }
@@ -90,13 +102,14 @@ public class ScanServer extends Thread {
                 //修改at_time
                 at_time = getNextAt_time();
                 //更新at_time到文件
-                FileUtil.saveConfToFile(scan_cache_path, String.valueOf(getAt_time()));
+                cacheServer.updateScanCache(String.valueOf(getAt_time()));
             }
             SleepUtil.sleepMilliSecond(200);
         }
         //资源释放
         try {
-            fileMangerCenter.close();
+//            fileMangerCenter.close();
+            rafFileMangerCenter.close();
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
         }

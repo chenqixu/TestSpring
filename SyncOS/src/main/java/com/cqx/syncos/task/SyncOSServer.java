@@ -3,7 +3,8 @@ package com.cqx.syncos.task;
 import com.alibaba.fastjson.JSON;
 import com.cqx.syncos.task.bean.TaskInfo;
 import com.cqx.syncos.util.DateUtil;
-import com.cqx.syncos.util.FileUtil;
+import com.cqx.syncos.util.file.FileUtil;
+import com.cqx.syncos.util.kafka.SchemaUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,6 +53,7 @@ public class SyncOSServer {
         String scan_path = FileUtil.endWith(table_path) + "scan";
         String load_path = FileUtil.endWith(table_path) + "load";
         String scan_cache_path = FileUtil.endWith(scan_path) + "scan.cache";
+        String load_avsc_path = FileUtil.endWith(load_path) + taskInfo.getSrc_name() + ".avsc";
         //判断表目录是否存在
         boolean isExists = FileUtil.isExists(table_path);
         logger.info("参数：{}", JSON.toJSON(taskInfo));
@@ -66,6 +68,11 @@ public class SyncOSServer {
             FileUtil.mkDir(load_path);
             //初始化扫描缓存
             FileUtil.saveConfToFile(scan_cache_path, String.valueOf(DateUtil.format(taskInfo)));
+            //初始化avro，并保存
+            SchemaUtil schemaUtil = new SchemaUtil(taskInfo);
+            FileUtil.saveConfToFile(load_avsc_path, schemaUtil.getSchemaStr());
+            //生成并启动任务
+            taskServer.addTask(taskInfo.getSrc_name());
         } else {
             logger.info("{} 已经存在，不用创建。", data_path);
         }

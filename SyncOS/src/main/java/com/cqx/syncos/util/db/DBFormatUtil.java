@@ -1,4 +1,4 @@
-package com.cqx.syncos.util;
+package com.cqx.syncos.util.db;
 
 /**
  * 时间格式工具，适配oracle和mysql

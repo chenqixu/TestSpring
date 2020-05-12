@@ -1,9 +1,10 @@
 package com.cqx.syncos.task;
 
 import com.cqx.syncos.task.bean.TaskInfo;
+import com.cqx.syncos.task.cache.CacheServer;
+import com.cqx.syncos.task.load.LoadServer;
 import com.cqx.syncos.task.scan.ScanServer;
-import com.cqx.syncos.util.DateUtil;
-import com.cqx.syncos.util.FileUtil;
+import com.cqx.syncos.util.file.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,54 +39,38 @@ public class TaskServer {
     @Resource
     private KafkaTemplate<String, byte[]> kafkaTemplate;
 
+    private List<CacheServer> cacheServerList;
     private List<TaskInfo> taskInfoList;
     private List<ScanServer> scanServerList;
+    private List<LoadServer> loadServerList;
 
     public void init() {
+        cacheServerList = new ArrayList<>();
         taskInfoList = new ArrayList<>();
+        scanServerList = new ArrayList<>();
+        loadServerList = new ArrayList<>();
         //扫描目录、读取配置
         for (String table_path : FileUtil.listFile(data_path)) {
-            String full_table_path = FileUtil.endWith(data_path) + table_path;
-            String full_table_scan_path = FileUtil.endWith(full_table_path) + "scan";
-            //扫描读取配置
-            String[] confFile = FileUtil.listFileEndWith(full_table_path, CACHE);
-            if (confFile != null && confFile.length == 1) {
-                TaskInfo taskInfo = FileUtil.readConfFile(FileUtil.endWith(full_table_path) + confFile[0], TaskInfo.class);
-                //扫描缓存，更新上一次扫描时间
-                String[] scanConfFile = FileUtil.listFileEndWith(full_table_scan_path, CACHE);
-                if (scanConfFile != null && scanConfFile.length == 1) {
-                    String at_time = FileUtil.readConfFile(FileUtil.endWith(full_table_scan_path) + scanConfFile[0]);
-                    if (at_time != null && at_time.length() > 0) {
-                        String update_at_time = DateUtil.format(Long.valueOf(at_time));
-                        logger.info("{} 更新at_time：{}", taskInfo.getTask_name(), update_at_time);
-                        taskInfo.setAt_time(update_at_time);
-                    }
-                }
-                //加入任务列表
-                taskInfoList.add(taskInfo);
-            }
-        }
-        //生成任务
-        createTask();
-        //启动任务
-        startTask();
-        //任务监控
-        monitorTask();
-    }
-
-    private void createTask() {
-        scanServerList = new ArrayList<>();
-        for (TaskInfo taskInfo : taskInfoList) {
-            ScanServer scanServer = new ScanServer(taskInfo);
-            scanServer.init(jdbcTemplate, data_path);
-            scanServerList.add(scanServer);
+            addTask(table_path);
         }
     }
 
-    private void startTask() {
-        for (ScanServer scanServer : scanServerList) {
-            scanServer.start();
-        }
+    public void addTask(String table_path) {
+        CacheServer cacheServer = new CacheServer(data_path, table_path);
+        //加入缓存服务列表
+        cacheServerList.add(cacheServer);
+        //加入任务列表
+        taskInfoList.add(cacheServer.getTaskInfo());
+        //生成扫描服务并启动
+        ScanServer scanServer = new ScanServer(cacheServer);
+        scanServer.init(jdbcTemplate);
+        scanServer.start();
+        scanServerList.add(scanServer);
+        //生成加载服务并启动
+        LoadServer loadServer = new LoadServer(cacheServer);
+        loadServer.init(kafkaTemplate);
+        loadServer.start();
+        loadServerList.add(loadServer);
     }
 
     private void monitorTask() {
@@ -96,6 +81,12 @@ public class TaskServer {
         for (ScanServer scanServer : scanServerList) {
             if (scanServer.isThis(task_name)) {
                 scanServer.close();
+                break;
+            }
+        }
+        for (LoadServer loadServer : loadServerList) {
+            if (loadServer.isThis(task_name)) {
+                loadServer.close();
                 break;
             }
         }
