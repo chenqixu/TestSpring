@@ -57,7 +57,7 @@ public class LoadServerTest {
     @Test
     public void run() {
         logger.info("{}", data_path);
-        loadServer.start();
+        new Thread(loadServer).start();
         SleepUtil.sleepMilliSecond(5000);
     }
 

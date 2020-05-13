@@ -1,25 +1,25 @@
 package com.cqx.syncos.task.bean;
 
 /**
- * LoadBean
+ * ScanCache
  *
  * @author chenqixu
  */
-public class LoadBean {
-    private String load_file_name;
+public class ScanCache {
+    private long at_time;
     private int header_pos_next;
 
-    public LoadBean(String load_file_name, int header_pos_next) {
-        this.load_file_name = load_file_name;
+    public ScanCache(long at_time, int header_pos_next) {
+        this.at_time = at_time;
         this.header_pos_next = header_pos_next;
     }
 
-    public String getLoad_file_name() {
-        return load_file_name;
+    public long getAt_time() {
+        return at_time;
     }
 
-    public void setLoad_file_name(String load_file_name) {
-        this.load_file_name = load_file_name;
+    public void setAt_time(long at_time) {
+        this.at_time = at_time;
     }
 
     public int getHeader_pos_next() {

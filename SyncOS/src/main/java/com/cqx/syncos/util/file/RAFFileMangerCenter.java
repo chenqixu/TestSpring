@@ -40,8 +40,7 @@ public class RAFFileMangerCenter {
                 + fillZero(msg.getBytes().length, header_half_len);
         syncOSRandomAccessFile.write(header_pos, (header + msg).getBytes());
         header_pos_next = header_pos + header_len + msg.getBytes().length;
-        logger.info("【write】msg：{}，header：{}，header_pos：{}，header_pos_next：{}", msg, header, header_pos, header_pos_next);
-
+        logger.debug("【write】msg：{}，header：{}，header_pos：{}，header_pos_next：{}", msg, header, header_pos, header_pos_next);
     }
 
     public String read() throws IOException {
@@ -57,7 +56,7 @@ public class RAFFileMangerCenter {
         String len = header.substring(header_half_len, header_len);
         msg = syncOSRandomAccessFile.read(Long.valueOf(pos), Integer.valueOf(len));
         header_pos_next = header_pos + header_len + Integer.valueOf(len);
-        logger.info("【read】header：{}，pos：{}，len：{}，msg：{}，header_pos：{}，header_pos_next：{}", header, pos, len, msg, header_pos, header_pos_next);
+        logger.debug("【read】header：{}，pos：{}，len：{}，msg：{}，header_pos：{}，header_pos_next：{}", header, pos, len, msg, header_pos, header_pos_next);
         return msg;
     }
 
@@ -86,7 +85,7 @@ public class RAFFileMangerCenter {
         return result;
     }
 
-    public int getHeader_pos() {
+    public int getHeader_pos_next() {
         return header_pos_next;
     }
 

@@ -64,17 +64,38 @@ public class TaskServer {
         //生成扫描服务并启动
         ScanServer scanServer = new ScanServer(cacheServer);
         scanServer.init(jdbcTemplate);
-        scanServer.start();
+        startTask(scanServer);
         scanServerList.add(scanServer);
         //生成加载服务并启动
         LoadServer loadServer = new LoadServer(cacheServer);
         loadServer.init(kafkaTemplate);
-        loadServer.start();
+        startTask(loadServer);
         loadServerList.add(loadServer);
     }
 
     private void monitorTask() {
 
+    }
+
+    private void startTask(Runnable runnable) {
+        new Thread(runnable).start();
+    }
+
+    public void startTask(String task_name) {
+        for (ScanServer scanServer : scanServerList) {
+            if (scanServer.isThis(task_name) && scanServer.isClose()) {
+                scanServer.resetFlag();
+                startTask(scanServer);
+                break;
+            }
+        }
+        for (LoadServer loadServer : loadServerList) {
+            if (loadServer.isThis(task_name) && loadServer.isClose()) {
+                loadServer.resetFlag();
+                startTask(loadServer);
+                break;
+            }
+        }
     }
 
     public void stopTask(String task_name) {
@@ -89,6 +110,12 @@ public class TaskServer {
                 loadServer.close();
                 break;
             }
+        }
+    }
+
+    public void stopAll() {
+        for (TaskInfo taskInfo : taskInfoList) {
+            stopTask(taskInfo.getTask_name());
         }
     }
 }

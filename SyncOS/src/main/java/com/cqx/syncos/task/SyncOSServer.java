@@ -66,8 +66,8 @@ public class SyncOSServer {
             FileUtil.mkDir(scan_path);
             //创建加载目录
             FileUtil.mkDir(load_path);
-            //初始化扫描缓存
-            FileUtil.saveConfToFile(scan_cache_path, String.valueOf(DateUtil.format(taskInfo)));
+//            //初始化扫描缓存
+//            FileUtil.saveConfToFile(scan_cache_path, String.valueOf(DateUtil.format(taskInfo)));
             //初始化avro，并保存
             SchemaUtil schemaUtil = new SchemaUtil(taskInfo);
             FileUtil.saveConfToFile(load_avsc_path, schemaUtil.getSchemaStr());
@@ -82,6 +82,18 @@ public class SyncOSServer {
     @RequestMapping(value = "/stop/{task_name}", method = {RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_VALUE)
     public int stopTask(@PathVariable String task_name) {
         taskServer.stopTask(task_name);
+        return 0;
+    }
+
+    @RequestMapping(value = "/start/{task_name}", method = {RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public int startTask(@PathVariable String task_name) {
+        taskServer.startTask(task_name);
+        return 0;
+    }
+
+    @RequestMapping(value = "/stopAll", method = {RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public int stopAllTask() {
+        taskServer.stopAll();
         return 0;
     }
 }

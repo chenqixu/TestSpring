@@ -10,6 +10,10 @@ public class TimeCostUtil {
     long end;
     long lastCheckTime = System.currentTimeMillis();
 
+    public void intLastCheckTime() {
+        lastCheckTime = System.currentTimeMillis();
+    }
+
     public void start() {
         start = System.currentTimeMillis();
     }

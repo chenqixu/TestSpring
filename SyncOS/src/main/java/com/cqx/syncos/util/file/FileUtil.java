@@ -79,6 +79,21 @@ public class FileUtil {
     }
 
     /**
+     * 保存配置对象到文件--线程
+     *
+     * @param path
+     * @param object
+     */
+    public static void saveConfToFileByThread(String path, Object object) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                saveConfToFile(path, object);
+            }
+        }).start();
+    }
+
+    /**
      * 从文件读取配置
      *
      * @param path

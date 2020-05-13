@@ -76,6 +76,27 @@ public class TaskInfoTest {
     }
 
     @Test
+    public void syncos_100000() {
+        TaskInfo taskInfo = new TaskInfo();
+        taskInfo.setTask_name("syncos_100000");
+        taskInfo.setInterval(30000L);
+
+        taskInfo.setSrc_type("ORACLE");
+        taskInfo.setSrc_name("syncos_100000");
+        taskInfo.setSrc_fields("visit_code,user_type,user_id,tx_date,trunk_out,trunk_in,term_type,stop_cause,start_time,source_type,service_type,service_code,second_bill_sum_fee,roam_type,prefix_type,other_visit_code,other_user_id,other_nbr,other_lac,other_home_county,other_home_code,other_cell_id,other_brand_id,origianl_sn,new_term_type,new_roam_type,new_prefix_type,new_ldc_type,new_charge_type,new_brand_id,netinout_flag,msrn,msisdn,msc_id,load_time,lfee_add,lfee2,lfee,ldc_type,lac_id,imsi,hot_flag,home_county,home_code,guild_other_nbr,f_lfee_add,f_lfee2,f_lfee,f_cfee_add,f_cfee,fw_calling_nbr,first_bill_sum_fee,fee_type,end_hms,end_date,detail_bill_id,data_up,data_down,cfee_add,cfee,cell_id,cdr_type,cdr_id,call_type,call_duration,brand_id,bill_summing_hms,bill_summing_date,system_type,multimedia_type,fid_cdr_id,team_id,team_type,partial_id,call_reference,communication_type,usage_mode,cost_type,cdr_version,info_type,called_number,deal_id,std_session_id,std_extend_field_1,std_extend_field_2,std_extend_field_3,std_extend_field_4,rn");
+        taskInfo.setModify_time_fields("load_time");
+        taskInfo.setAt_time("2020-05-12 15:00:00");
+        taskInfo.setScan_split("\\|");
+        taskInfo.setSrc_conf(new HashMap<>());
+
+        taskInfo.setDst_type("KAFKA");//ORACLE、MYSQL、KAFKA
+        taskInfo.setDst_name("ogg_to_kafka");
+        taskInfo.setDst_fields("");
+        taskInfo.setDst_conf(new HashMap<>());
+        logger.info("{}", JSON.toJSONString(taskInfo));
+    }
+
+    @Test
     public void time() {
         logger.info("{}", DateUtil.format("2020-05-09 14:52:23"));
     }

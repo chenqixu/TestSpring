@@ -49,7 +49,13 @@ public class ScanServerTest {
 
     @Test
     public void run() {
-        if (scanServer != null) scanServer.start();
+        if (scanServer != null) new Thread(scanServer).start();
         SleepUtil.sleepMilliSecond(5000);
+    }
+
+    @Test
+    public void query() {
+        int num = scanServer.query("select visit_code,user_id,start_time,other_nbr from syncos_100000 where rownum<5", 4, "|");
+        logger.info("num：{}", num);
     }
 }
