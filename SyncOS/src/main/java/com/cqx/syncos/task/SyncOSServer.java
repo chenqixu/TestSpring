@@ -2,7 +2,7 @@ package com.cqx.syncos.task;
 
 import com.alibaba.fastjson.JSON;
 import com.cqx.syncos.task.bean.TaskInfo;
-import com.cqx.syncos.util.DateUtil;
+import com.cqx.syncos.task.bean.TaskStatus;
 import com.cqx.syncos.util.file.FileUtil;
 import com.cqx.syncos.util.kafka.SchemaUtil;
 import org.slf4j.Logger;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * SessionServer
@@ -48,12 +49,12 @@ public class SyncOSServer {
     @RequestMapping(value = "/add", method = {RequestMethod.POST}, produces = MediaType.APPLICATION_JSON_VALUE)
     public int addTask(@RequestBody TaskInfo taskInfo) {
         //创建对应任务目录，把bean转换成JSON串写入文件
-        String table_path = FileUtil.endWith(data_path) + taskInfo.getSrc_name();
-        String conf_path = FileUtil.endWith(table_path) + taskInfo.getSrc_name() + ".cache";
+        String table_path = FileUtil.endWith(data_path) + taskInfo.getTask_name();
+        String conf_path = FileUtil.endWith(table_path) + taskInfo.getTask_name() + ".cache";
         String scan_path = FileUtil.endWith(table_path) + "scan";
         String load_path = FileUtil.endWith(table_path) + "load";
         String scan_cache_path = FileUtil.endWith(scan_path) + "scan.cache";
-        String load_avsc_path = FileUtil.endWith(load_path) + taskInfo.getSrc_name() + ".avsc";
+        String load_avsc_path = FileUtil.endWith(load_path) + taskInfo.getTask_name() + ".avsc";
         //判断表目录是否存在
         boolean isExists = FileUtil.isExists(table_path);
         logger.info("参数：{}", JSON.toJSON(taskInfo));
@@ -72,7 +73,7 @@ public class SyncOSServer {
             SchemaUtil schemaUtil = new SchemaUtil(taskInfo);
             FileUtil.saveConfToFile(load_avsc_path, schemaUtil.getSchemaStr());
             //生成并启动任务
-            taskServer.addTask(taskInfo.getSrc_name());
+            taskServer.addTask(taskInfo.getTask_name());
         } else {
             logger.info("{} 已经存在，不用创建。", data_path);
         }
@@ -95,5 +96,15 @@ public class SyncOSServer {
     public int stopAllTask() {
         taskServer.stopAll();
         return 0;
+    }
+
+    @RequestMapping(value = "/status/{task_name}", method = {RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public TaskStatus getTaskStatus(@PathVariable String task_name) {
+        return taskServer.statusTask(task_name);
+    }
+
+    @RequestMapping(value = "/statusAll", method = {RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<TaskStatus> getAllTaskStatus() {
+        return taskServer.statusAllTask();
     }
 }

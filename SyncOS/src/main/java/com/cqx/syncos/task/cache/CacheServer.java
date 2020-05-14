@@ -26,20 +26,20 @@ public class CacheServer {
     private String load_cache_path;
     private GenericRecordUtil genericRecordUtil;
 
-    public CacheServer(String data_path, String table_name) {
-        init(data_path, table_name);
+    public CacheServer(String data_path, String task_name) {
+        init(data_path, task_name);
     }
 
-    private void init(String data_path, String table_name) {
+    private void init(String data_path, String task_name) {
         //路径
-        String table_path = FileUtil.endWith(data_path) + table_name;
-        String table_cache_path = FileUtil.endWith(table_path) + table_name + ".cache";
+        String table_path = FileUtil.endWith(data_path) + task_name;
+        String table_cache_path = FileUtil.endWith(table_path) + task_name + ".cache";
         String scan_path = FileUtil.endWith(table_path) + "scan";
         scan_cache_path = FileUtil.endWith(scan_path) + "scan.cache";
         scan_save_file = FileUtil.endWith(scan_path) + "res000001.log";
         String load_path = FileUtil.endWith(table_path) + "load";
         load_cache_path = FileUtil.endWith(load_path) + "load.cache";
-        String load_avsc_path = FileUtil.endWith(load_path) + table_name + ".avsc";
+        String load_avsc_path = FileUtil.endWith(load_path) + task_name + ".avsc";
         //判断是否有表任务配置
         if (FileUtil.isExists(table_cache_path)) {
             //读取表任务配置

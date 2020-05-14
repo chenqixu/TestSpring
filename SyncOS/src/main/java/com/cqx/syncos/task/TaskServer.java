@@ -1,6 +1,7 @@
 package com.cqx.syncos.task;
 
 import com.cqx.syncos.task.bean.TaskInfo;
+import com.cqx.syncos.task.bean.TaskStatus;
 import com.cqx.syncos.task.cache.CacheServer;
 import com.cqx.syncos.task.load.LoadServer;
 import com.cqx.syncos.task.scan.ScanServer;
@@ -15,7 +16,9 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 启动扫描任务、加载任务
@@ -39,38 +42,38 @@ public class TaskServer {
     @Resource
     private KafkaTemplate<String, byte[]> kafkaTemplate;
 
-    private List<CacheServer> cacheServerList;
-    private List<TaskInfo> taskInfoList;
-    private List<ScanServer> scanServerList;
-    private List<LoadServer> loadServerList;
+    private Map<String, CacheServer> cacheServerList;
+    private Map<String, TaskInfo> taskInfoList;
+    private Map<String, ScanServer> scanServerList;
+    private Map<String, LoadServer> loadServerList;
 
     public void init() {
-        cacheServerList = new ArrayList<>();
-        taskInfoList = new ArrayList<>();
-        scanServerList = new ArrayList<>();
-        loadServerList = new ArrayList<>();
+        cacheServerList = new HashMap<>();
+        taskInfoList = new HashMap<>();
+        scanServerList = new HashMap<>();
+        loadServerList = new HashMap<>();
         //扫描目录、读取配置
-        for (String table_path : FileUtil.listFile(data_path)) {
-            addTask(table_path);
+        for (String table_name : FileUtil.listFile(data_path)) {
+            addTask(table_name);
         }
     }
 
-    public void addTask(String table_path) {
-        CacheServer cacheServer = new CacheServer(data_path, table_path);
+    public void addTask(String task_name) {
+        CacheServer cacheServer = new CacheServer(data_path, task_name);
         //加入缓存服务列表
-        cacheServerList.add(cacheServer);
+        cacheServerList.put(task_name, cacheServer);
         //加入任务列表
-        taskInfoList.add(cacheServer.getTaskInfo());
+        taskInfoList.put(task_name, cacheServer.getTaskInfo());
         //生成扫描服务并启动
         ScanServer scanServer = new ScanServer(cacheServer);
         scanServer.init(jdbcTemplate);
         startTask(scanServer);
-        scanServerList.add(scanServer);
+        scanServerList.put(task_name, scanServer);
         //生成加载服务并启动
         LoadServer loadServer = new LoadServer(cacheServer);
         loadServer.init(kafkaTemplate);
         startTask(loadServer);
-        loadServerList.add(loadServer);
+        loadServerList.put(task_name, loadServer);
     }
 
     private void monitorTask() {
@@ -82,15 +85,12 @@ public class TaskServer {
     }
 
     public void startTask(String task_name) {
-        for (ScanServer scanServer : scanServerList) {
+        for (Map.Entry<String, ScanServer> entry : scanServerList.entrySet()) {
+            ScanServer scanServer = entry.getValue();
             if (scanServer.isThis(task_name) && scanServer.isClose()) {
                 scanServer.resetFlag();
                 startTask(scanServer);
-                break;
-            }
-        }
-        for (LoadServer loadServer : loadServerList) {
-            if (loadServer.isThis(task_name) && loadServer.isClose()) {
+                LoadServer loadServer = loadServerList.get(entry.getKey());
                 loadServer.resetFlag();
                 startTask(loadServer);
                 break;
@@ -99,22 +99,48 @@ public class TaskServer {
     }
 
     public void stopTask(String task_name) {
-        for (ScanServer scanServer : scanServerList) {
+        for (Map.Entry<String, ScanServer> entry : scanServerList.entrySet()) {
+            ScanServer scanServer = entry.getValue();
             if (scanServer.isThis(task_name)) {
                 scanServer.close();
-                break;
-            }
-        }
-        for (LoadServer loadServer : loadServerList) {
-            if (loadServer.isThis(task_name)) {
+                LoadServer loadServer = loadServerList.get(entry.getKey());
                 loadServer.close();
                 break;
             }
         }
     }
 
+    public TaskStatus statusTask(String task_name) {
+        TaskStatus taskStatus = new TaskStatus();
+        taskStatus.setTask_name(task_name);
+        boolean isFind = false;
+        for (Map.Entry<String, ScanServer> entry : scanServerList.entrySet()) {
+            ScanServer scanServer = entry.getValue();
+            if (scanServer.isThis(task_name)) {
+                taskStatus.setScan_isRun(!scanServer.isClose());
+                LoadServer loadServer = loadServerList.get(entry.getKey());
+                taskStatus.setLoad_isRun(!loadServer.isClose());
+                isFind = true;
+                break;
+            }
+        }
+        if (isFind) return taskStatus;
+        else return null;
+    }
+
+    public List<TaskStatus> statusAllTask() {
+        List<TaskStatus> taskStatusList = new ArrayList<>();
+        for (Map.Entry<String, TaskInfo> entry : taskInfoList.entrySet()) {
+            TaskInfo taskInfo = entry.getValue();
+            TaskStatus taskStatus = statusTask(taskInfo.getTask_name());
+            if (taskStatus != null) taskStatusList.add(taskStatus);
+        }
+        return taskStatusList;
+    }
+
     public void stopAll() {
-        for (TaskInfo taskInfo : taskInfoList) {
+        for (Map.Entry<String, TaskInfo> entry : taskInfoList.entrySet()) {
+            TaskInfo taskInfo = entry.getValue();
             stopTask(taskInfo.getTask_name());
         }
     }
