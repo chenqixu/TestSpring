@@ -198,12 +198,27 @@ public class ScanServer implements Runnable {
         return scanSeq;
     }
 
-    public boolean isThis(String task_name) {
-        return taskInfo.getTask_name().equals(task_name);
-    }
-
     public void resetFlag() {
         flag = true;
+    }
+
+    /**
+     * 重置at_time，格式：yyyyMMddHHmmss
+     *
+     * @param at_time
+     */
+    public boolean resetAt_time(String at_time) {
+        //时间格式校验
+        try {
+            long new_at_time = DateUtil.atTimeCheck(at_time);
+            scanCache.setAt_time(new_at_time);
+            this.at_time = DateUtil.format(scanCache.getAt_time());
+            logger.info("{}重置at_time成功，重置为：{}", logHeader(), at_time);
+            return true;
+        } catch (Exception e) {
+            logger.error(String.format("%s重置at_time失败，内容：%s", logHeader(), e.getMessage()));
+        }
+        return false;
     }
 
     public void close() {

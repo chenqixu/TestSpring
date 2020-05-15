@@ -149,10 +149,6 @@ public class LoadServer implements Runnable {
         return loadSeq;
     }
 
-    public boolean isThis(String task_name) {
-        return taskInfo.getTask_name().equals(task_name);
-    }
-
     public void resetFlag() {
         flag = true;
     }

@@ -107,4 +107,14 @@ public class SyncOSServer {
     public List<TaskStatus> getAllTaskStatus() {
         return taskServer.statusAllTask();
     }
+
+    @RequestMapping(value = "/sendKafka/{topic}", method = {RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public void sendKafka(@PathVariable String topic) {
+        taskServer.sendKafka(topic);
+    }
+
+    @RequestMapping(value = "/rerun/{task_name}/{at_time}", method = {RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public void rerun(@PathVariable String task_name, @PathVariable String at_time) {
+        taskServer.rerun(task_name, at_time);
+    }
 }

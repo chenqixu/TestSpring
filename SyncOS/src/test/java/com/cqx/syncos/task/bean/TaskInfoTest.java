@@ -97,6 +97,27 @@ public class TaskInfoTest {
     }
 
     @Test
+    public void cqx_ccs_user(){
+        TaskInfo taskInfo = new TaskInfo();
+        taskInfo.setTask_name("cqx_ccs_user");
+        taskInfo.setInterval(30000L);
+
+        taskInfo.setSrc_type("ORACLE");
+        taskInfo.setSrc_name("cqx_ccs_user");
+        taskInfo.setSrc_fields("home_city,user_id,network_type,customer_id,type,service_type,msisdn,imsi,user_brand,home_county,creator,create_time,create_site,service_status,password,transfer_time,stop_time,modify_id,modify_site,modify_time,modify_content,rc_sn,rc_expire_time,order_seq,broker_id,history_seq,lock_flag,bill_type,bill_credit,bill_time,expire_time,archives_create_time,password_get_type,password_get_time,password_reset_time,sub_type");
+        taskInfo.setModify_time_fields("modify_time");
+        taskInfo.setAt_time("2020-05-15 10:00:00");
+        taskInfo.setScan_split("\\|");
+        taskInfo.setSrc_conf(new HashMap<>());
+
+        taskInfo.setDst_type("KAFKA");//ORACLE、MYSQL、KAFKA
+        taskInfo.setDst_name("ogg_to_kafka");
+        taskInfo.setDst_fields("");
+        taskInfo.setDst_conf(new HashMap<>());
+        logger.info("{}", JSON.toJSONString(taskInfo));
+    }
+
+    @Test
     public void time() {
         logger.info("{}", DateUtil.format("2020-05-09 14:52:23"));
     }

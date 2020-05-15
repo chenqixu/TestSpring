@@ -21,14 +21,21 @@ public class DateUtil {
         return format(taskInfo.getAt_time());
     }
 
-    public static long format(String time) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static long format(String time, String pattern) {
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
         try {
             return sdf.parse(time).getTime();
         } catch (ParseException e) {
-            logger.error("初始化扫描缓存异常，时间格式错误：" + time, e);
-            throw new NullPointerException("初始化扫描缓存异常，时间格式错误：" + time);
+            throw new NullPointerException(String.format("时间格式错误，格式：%s，内容：%s", pattern, time));
         }
+    }
+
+    public static long format(String time) {
+        return format(time, "yyyy-MM-dd HH:mm:ss");
+    }
+
+    public static long atTimeCheck(String time) {
+        return format(time, "yyyyMMddHHmmss");
     }
 
     public static String format(long time) {

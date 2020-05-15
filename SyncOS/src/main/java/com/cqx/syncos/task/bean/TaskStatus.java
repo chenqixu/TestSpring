@@ -10,6 +10,10 @@ public class TaskStatus {
     private boolean scan_isRun;
     private boolean load_isRun;
 
+    public boolean isStop() {
+        return !scan_isRun && !load_isRun;
+    }
+
     public boolean isScan_isRun() {
         return scan_isRun;
     }
