@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+</head>
+<body>
+
+<script src="D:\Document\Workspaces\Git\TestSpring\TestSpringMVC\src\main\webapp\js\jquery.min.js"></script>
+<script src="D:\Document\Workspaces\Git\TestSpring\TestSpringMVC\src\main\webapp\js\md5.js"></script>
+<script src="D:\Document\Workspaces\Git\TestSpring\TestSpringMVC\src\main\webapp\js\aes.js"></script>
+<script src="D:\Document\Workspaces\Git\TestSpring\TestSpringMVC\src\main\webapp\js\core-min.js"></script>
+<script src="D:\Document\Workspaces\Git\TestSpring\TestSpringMVC\src\main\webapp\js\mode-ecb-min.js"></script>
+<script type="text/javascript">
+    // alert(window.location.href);
+    /* init */
+    $(function () {
+        var a = AES_encrypt("{\"username\": \"admin\", \"password\": \"123456\"}", "newland_computer");
+        var b = AES_Decrypt(a.toString(), "newland_computer");
+        var c = JSON.parse(b);
+        console.info(a);
+        console.info(b);
+        console.info(c.username);
+    });
+
+    /**
+     * @return {string}
+     */
+    function AES_encrypt(str, keystr) {
+        //aes加密
+        var key = CryptoJS.enc.Utf8.parse(keystr);
+        var srcs = CryptoJS.enc.Utf8.parse(str);
+        return CryptoJS.AES.encrypt(srcs, key, {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7
+        }).toString();
+    }
+
+    //解密方法
+    /**
+     * @return {string}
+     */
+    function AES_Decrypt(str, keystr) {
+        var key = CryptoJS.enc.Utf8.parse(keystr);
+        var decrypt = CryptoJS.AES.decrypt(str, key, {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7
+        });
+        return decrypt.toString(CryptoJS.enc.Utf8);
+    }
+</script>
+</body>
+</html>

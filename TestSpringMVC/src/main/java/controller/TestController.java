@@ -1,25 +1,44 @@
 package controller;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
-
+import com.alibaba.fastjson.JSON;
+import entity.AuthBean;
+import entity.ReqResBean;
 import entity.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import utils.EncryptUtil;
 
+import java.util.UUID;
+
+@Scope("prototype")
 @Controller  //类似Struts的Action
+@RequestMapping(value = "/test")
 public class TestController {
-	
-	@RequestMapping("/test/login.do")
-	public String hello(Model model) {
-		model.addAttribute("greeting", "Hello Spring MVC");
-		return "loginSuccess";
-	}
+
+    private static final Logger logger = LoggerFactory.getLogger(TestController.class);
+
+    @RequestMapping(value = "/login.do")
+    @ResponseBody
+    public ReqResBean hello(ReqResBean req) {
+        //解密
+        String decrypt = EncryptUtil.aesDecrypt(req.getContent());
+        logger.info("[decrypt] : {}", decrypt);
+        User user = JSON.parseObject(decrypt, User.class);
+        logger.info("[user] : {} {}", user.getUsername(), user.getPassword());
+
+        ReqResBean res = new ReqResBean();
+        AuthBean authBean = new AuthBean();
+        if (user.getUsername().equals("admin") && user.getPassword().equals("123456")) {
+            authBean.setId(UUID.randomUUID().toString());
+            //加密
+            res.setContent(EncryptUtil.aesEncrypt(JSON.toJSONString(authBean)));
+        }
+        return res;
+    }
 
 //    @RequestMapping("test/login.do")  // 请求url地址映射，类似Struts的action-mapping
 //    public String testLogin(@RequestParam(value="username")String username, String password, HttpServletRequest request) {
