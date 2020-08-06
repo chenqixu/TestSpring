@@ -306,6 +306,19 @@
             <artifactId>sam-toolkit</artifactId>
             <version>1.0.0</version>
         </dependency>
+
+        <!-- TestCommon -->
+        <dependency>
+            <groupId>com.cqx</groupId>
+            <artifactId>TestCommon</artifactId>
+            <version>1.0.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

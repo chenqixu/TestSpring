@@ -11,6 +11,13 @@
 //    String user_id = (String) request.getSession().getAttribute("user_id");
     System.out.println(user_name);
 //    System.out.println(user_id);
+
+    /**
+     * 会话标识未更新--缺陷处理
+     */
+    request.getSession().invalidate();//清空session
+    Cookie cookie = request.getCookies()[0];//获取cookie
+    cookie.setMaxAge(0);//让cookie过期
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
