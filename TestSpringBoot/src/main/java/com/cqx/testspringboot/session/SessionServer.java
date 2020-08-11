@@ -1,8 +1,6 @@
 package com.cqx.testspringboot.session;
 
 import com.cqx.testspringboot.activiti.dao.CommonBaseDao;
-import com.cqx.testspringboot.session.dao.BaseDemoDao;
-import com.cqx.testspringboot.session.dao.DemoDao;
 import com.cqx.testspringboot.session.model.TenantInfo;
 import com.cqx.testspringboot.session.model.UserInfo;
 import org.slf4j.Logger;
@@ -146,5 +144,18 @@ public class SessionServer {
         params.put("p_tenant_id", p_tenant_id);
         tenantInfos = dao.query(sql, params, TenantInfo.class);
         return tenantInfos;
+    }
+
+    @RequestMapping(value = "/queryTimeOut/{sleep}", method = {RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String queryTimeOut(@PathVariable String sleep) {
+        int _sleep = Integer.valueOf(sleep);
+        try {
+            logger.info("准备休眠{}毫秒，开始休眠", sleep);
+            Thread.sleep(_sleep);
+            logger.info("准备休眠{}毫秒，休眠完成", sleep);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return "休眠了" + sleep;
     }
 }
