@@ -27,7 +27,7 @@
         <apache.commons.io>2.5</apache.commons.io>
         <apache.commons.dbcp>1.4</apache.commons.dbcp>
 
-        <mysql.version>5.1.39</mysql.version>
+        <mysql.version>8.0.16</mysql.version>
         <!--<oracle.artifactId>ojdbc5</oracle.artifactId>-->
         <!--<oracle.version>11.2.0.4.0</oracle.version>-->
         <oracle.artifactId>ojdbc7</oracle.artifactId>
