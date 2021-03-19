@@ -28,7 +28,10 @@
         <apache.commons.dbcp>1.4</apache.commons.dbcp>
 
         <mysql.version>5.1.39</mysql.version>
-        <oracle.version>11.2.0.4.0</oracle.version>
+        <!--<oracle.artifactId>ojdbc5</oracle.artifactId>-->
+        <!--<oracle.version>11.2.0.4.0</oracle.version>-->
+        <oracle.artifactId>ojdbc7</oracle.artifactId>
+        <oracle.version>12.1.0.2</oracle.version>
 
         <fastjson.version>1.2.31</fastjson.version>
         <lombok.version>1.16.18</lombok.version>
@@ -59,7 +62,7 @@
         </dependency>
         <dependency>
             <groupId>com.oracle</groupId>
-            <artifactId>ojdbc5</artifactId>
+            <artifactId>${oracle.artifactId}</artifactId>
             <version>${oracle.version}</version>
         </dependency>
         <dependency>
@@ -79,6 +82,14 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- testng -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.10</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

@@ -49,6 +49,19 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- TestCommon -->
+        <dependency>
+            <groupId>com.cqx</groupId>
+            <artifactId>TestCommon</artifactId>
+            <version>1.0.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>*</artifactId>
+                    <groupId>*</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
     </dependencies>
     <modules>
         <module>TestSpringMVC</module>
