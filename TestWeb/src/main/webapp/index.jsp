@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
     <script language="javascript" type="text/JavaScript">
         function goto() {
-            top.window.location = "<%=APP_PATH%>/goto/image.do";
+            top.window.location = "<%=APP_PATH%>/video?index=1";
         }
     </script>
 </head>

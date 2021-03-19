@@ -56,6 +56,18 @@
         <url-pattern>*.do</url-pattern>
     </servlet-mapping>
 
+    <!-- VideoServlet -->
+    <servlet>
+        <description>VideoServlet</description>
+        <display-name>VideoServlet</display-name>
+        <servlet-name>VideoServlet</servlet-name>
+        <servlet-class>com.cqx.testweb.servlet.VideoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>VideoServlet</servlet-name>
+        <url-pattern>/video</url-pattern>
+    </servlet-mapping>
+
     <!--字符集过滤器-->
     <filter>
         <description>字符集过滤器</description>

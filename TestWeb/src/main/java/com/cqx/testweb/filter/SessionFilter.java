@@ -44,19 +44,19 @@ public class SessionFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         String name = httpRequest.getRequestURI().toUpperCase();
-        if (name.contains("INDEX")
-                || name.contains("IMAGE")
-                || name.contains("LOGOUT")
-                || name.contains("TRANSFER")) {
+//        if (name.contains("INDEX")
+//                || name.contains("IMAGE")
+//                || name.contains("LOGOUT")
+//                || name.contains("TRANSFER")) {
             logger.info("不走权限控制，name：{}", name);
             chain.doFilter(request, response);
-        } else {
-            logger.info("需要权限控制，name：{}", name);
-            //权限控制
-            transfer(httpResponse, httpRequest);
-            //==沿过滤器链将请求传递到下一个过滤器==
-            chain.doFilter(request, response);
-        }
+//        } else {
+//            logger.info("需要权限控制，name：{}", name);
+//            //权限控制
+//            transfer(httpResponse, httpRequest);
+//            //==沿过滤器链将请求传递到下一个过滤器==
+//            chain.doFilter(request, response);
+//        }
     }
 
     /**
