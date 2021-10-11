@@ -99,10 +99,26 @@ public class SessionServer {
         userInfo3.setMail_addr("13511111111@139.com");
         userInfo3.setToken_code("token_code");
 
+        // 王芳菁（新大陆）9990071
+        UserInfo userInfo4 = new UserInfo();
+        userInfo4.setUser_id("9990071");
+        userInfo4.setUser_name("王芳菁");
+        userInfo4.setNick_name("9990071");
+        userInfo4.setOrg_id("9990399");
+        userInfo4.setOrg_name("省公司业务支撑系统部");
+        userInfo4.setHome_city("590");
+        userInfo4.setHome_city_desc("福建省");
+        userInfo4.setHome_county("591");
+        userInfo4.setHome_county_desc("福州市");
+        userInfo4.setMobile_phone("13511111111");
+        userInfo4.setMail_addr("13511111111@139.com");
+        userInfo4.setToken_code("token_code");
+
         userInfoMap.put(userInfo.getUser_id(), userInfo);
         userInfoMap.put(userInfo1.getUser_id(), userInfo1);
         userInfoMap.put(userInfo2.getUser_id(), userInfo2);
         userInfoMap.put(userInfo3.getUser_id(), userInfo3);
+        userInfoMap.put(userInfo4.getUser_id(), userInfo4);
     }
 
     @RequestMapping("/queryUserInfo")
@@ -157,5 +173,10 @@ public class SessionServer {
             e.printStackTrace();
         }
         return "休眠了" + sleep;
+    }
+
+    @RequestMapping(value = "/code", method = {RequestMethod.POST}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public void code(@RequestParam(value = "data") String content) {
+        logger.info("content：{}", content);
     }
 }
