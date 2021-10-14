@@ -11,6 +11,7 @@ public class TenantInfo {
     private String tenant_ename;
     private String tenant_level;
     private String p_tenant_id;
+    private String tenant_type;
 
     public String getTenant_id() {
         return tenant_id;
@@ -50,5 +51,13 @@ public class TenantInfo {
 
     public void setP_tenant_id(String p_tenant_id) {
         this.p_tenant_id = p_tenant_id;
+    }
+
+    public String getTenant_type() {
+        return tenant_type;
+    }
+
+    public void setTenant_type(String tenant_type) {
+        this.tenant_type = tenant_type;
     }
 }

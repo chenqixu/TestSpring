@@ -137,7 +137,7 @@ public class SessionServer {
     @RequestMapping(value = "/queryTenantsByTenantLevel/{tenant_level}", method = {RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<TenantInfo> queryTenantsByTenantLevel(@PathVariable String tenant_level) {
         List<TenantInfo> tenantInfos;
-        String sql = "select tenant_id,tenant_name,tenant_ename,tenant_level,p_tenant_id from sm2_tenant where tenant_level=:tenant_level";
+        String sql = "select tenant_id,tenant_name,tenant_ename,tenant_level,p_tenant_id,tenant_type from sm2_tenant where tenant_level=:tenant_level";
         Map<String, String> params = new HashMap<>();
         params.put("tenant_level", tenant_level);
         // Resource要在org.springframework.aop.framework.CglibAopProxy才会生成
@@ -155,7 +155,7 @@ public class SessionServer {
     @RequestMapping(value = "/queryTenantsByPTenantId/{p_tenant_id}", method = {RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<TenantInfo> queryTenantsByPTenantId(@PathVariable String p_tenant_id) {
         List<TenantInfo> tenantInfos;
-        String sql = "select tenant_id,tenant_name,tenant_ename,tenant_level,p_tenant_id from sm2_tenant where p_tenant_id=:p_tenant_id";
+        String sql = "select tenant_id,tenant_name,tenant_ename,tenant_level,p_tenant_id,tenant_type from sm2_tenant where p_tenant_id=:p_tenant_id";
         Map<String, String> params = new HashMap<>();
         params.put("p_tenant_id", p_tenant_id);
         tenantInfos = dao.query(sql, params, TenantInfo.class);
