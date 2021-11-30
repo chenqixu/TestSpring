@@ -6,6 +6,7 @@
 
     <display-name>TestWeb</display-name>
 
+    <!-- 上下文参数 -->
     <!--部署在同一容器中的Web项目，要配置不同的param-value，不能重复-->
     <context-param>
         <param-name>webAppRootKey</param-name>
@@ -19,7 +20,7 @@
     <!--spring配置加载，如果不写，默认是WEB-INF/applicationContext.xml-->
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath*:resources/spring/spring-base.xml</param-value>
+        <param-value>classpath*:resources/spring/spring-context.xml</param-value>
     </context-param>
 
     <!-- listener -->
@@ -47,7 +48,7 @@
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>classpath*:resources/spring/spring-edc-mvc.xml</param-value>
+            <param-value>classpath*:resources/spring/spring-context.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>

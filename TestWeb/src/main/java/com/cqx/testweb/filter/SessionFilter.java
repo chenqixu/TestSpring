@@ -43,11 +43,12 @@ public class SessionFilter implements Filter {
         //==在这里可以对客户端请求进行检查==
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-        String name = httpRequest.getRequestURI().toUpperCase();
-//        if (name.contains("INDEX")
-//                || name.contains("IMAGE")
-//                || name.contains("LOGOUT")
-//                || name.contains("TRANSFER")) {
+        String name =  httpRequest.getRequestURI();
+        String upperCaseName = name.toUpperCase();
+//        if (upperCaseName.contains("INDEX")
+//                || upperCaseName.contains("IMAGE")
+//                || upperCaseName.contains("LOGOUT")
+//                || upperCaseName.contains("TRANSFER")) {
             logger.info("不走权限控制，name：{}", name);
             chain.doFilter(request, response);
 //        } else {

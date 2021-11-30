@@ -40,11 +40,11 @@ public class VideoServlet extends SpringSupportServlet {
         String APP_PATH = this.getServletContext().getRealPath(FS);
         logger.info("============APP_PATH：{}", APP_PATH);
         int i = 1;
-        //扫描res下的目录
-        for (String file : FileUtil.listFile(APP_PATH + "res" + FS)) {
-            String path = "res" + FS + file + FS;
-            logger.info("====扫描到res下的目录：{}", path);
-            //根据文件后缀，扫描res下目录的目录
+        //扫描res/video下的目录
+        for (String file : FileUtil.listFile(APP_PATH + "res" + FS + "video" + FS)) {
+            String path = "res" + FS + "video" + FS + file + FS;
+            logger.info("====扫描到res{}video下的目录：{}", FS, path);
+            //根据文件后缀，扫描res/video下目录的目录
             for (String endWith : endWithList) {
                 for (String video : FileUtil.listFileEndWith(APP_PATH + path, endWith)) {
                     VideoBean videoBean = new VideoBean(i + "", video, path, endWith, APP_PATH);

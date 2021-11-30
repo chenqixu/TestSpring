@@ -8,10 +8,20 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
     <script language="javascript" type="text/JavaScript">
-        function goto() {
-            top.window.location = "<%=APP_PATH%>/video?index=1";
-        }
     </script>
+    <style type="text/css">
+        a {
+            font-size: 48px;
+        }
+    </style>
 </head>
-<body onload="goto();"></body>
+<body>
+<ul>
+    <li><a href="<%=APP_PATH%>/video?index=1">视频集锦</a></li>
+    <br>
+    <li><a href="<%=APP_PATH%>/goto/comic/comic.do">动漫之家(月份)</a></li>
+    <br>
+    <li><a href="<%=APP_PATH%>/goto/comic/comic.do">动漫之家(分类)</a></li>
+</ul>
+</body>
 </html>
