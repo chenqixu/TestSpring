@@ -4,8 +4,14 @@ var plist = new Page("listpagediv", "plist");
 // 初始化加载
 (function ($) {
     // 查询总记录数
+    var tableName;
+    if (COMIC_TYPE == "type") {
+        tableName = "comic_type";
+    } else {
+        tableName = "comic_month";
+    }
     var bean = {
-        tableName: "comic_month",
+        tableName: tableName,
         columns: ["cnt"]
     };
     $.ajax({
@@ -26,11 +32,32 @@ var plist = new Page("listpagediv", "plist");
 
 // 查询
 function queryList(start_page) {
+    var column;
+    var columns;
+    var order_by_column;
+    var action;
+    var _order_is_length = false;
+    var _order_is_cnt = false;
+    if (COMIC_TYPE == "type") {
+        column = "book_type_name";
+        action = "type";
+        _order_is_length = true;
+        _order_is_cnt = true;
+    } else {
+        column = "month_name";
+        action = "month";
+    }
+    order_by_column = column;
+    columns = [column, "count(1) as CNT"];
     var bean = {
         page: start_page,
         pageNum: "15",
-        tableName: "comic_month",
-        columns: ["month_name"]
+        tableName: "comic_book",
+        columns: columns,
+        order_by_column: order_by_column,
+        group_by_column: order_by_column,
+        order_is_length: _order_is_length,
+        order_is_cnt: _order_is_cnt
     };
     $.ajax({
         url: curPath + "/comic/page.do",
@@ -41,11 +68,17 @@ function queryList(start_page) {
         success: function (data) {
             var ul_innerhtml = "";
             for (let index = 0; index < data.length; index++) {
-                var month_name = data[index].MONTH_NAME;
+                var query_name = data[index].MONTH_NAME;
+                var cnt = data[index].CNT;
+                if (COMIC_TYPE == "type") {
+                    query_name = data[index].BOOK_TYPE_NAME;
+                } else {
+                    query_name = data[index].MONTH_NAME;
+                }
                 ul_innerhtml = ul_innerhtml + "<li><a href='"
-                    + curPath + "/goto/comic/month.do?month_name="
-                    + month_name + "'><b><img alt='Null' src='images/tb01.png'/></b><span>"
-                    + month_name + "</span></a></li>";
+                    + curPath + "/goto/comic/" + action + ".do?" + column + "="
+                    + query_name + "'><b>" + cnt + "</b><span>"
+                    + query_name + "</span></a></li>";
             }
             $("#mainmenu_ul").html(ul_innerhtml);
         },

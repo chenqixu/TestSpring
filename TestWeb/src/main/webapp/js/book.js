@@ -4,7 +4,8 @@
         tableName: "comic_book_img",
         columns: ["month_name", "book_name", "img_name"],
         month_name: month_name,
-        book_name: book_name
+        book_name: book_name,
+        order_by_column: "img_name"
     };
     $.ajax({
         url: curPath + "/comic/detail.do",

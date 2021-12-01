@@ -1,11 +1,20 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     String APP_PATH = request.getContextPath();
+    // 分为month和type，默认值是month
+    String COMIC_TYPE = request.getParameter("comic_type");
+    if (COMIC_TYPE == null || COMIC_TYPE.length() == 0) {
+        COMIC_TYPE = "month";
+    }
+    String COMIC_TYPE_NAME = "按月份";
+    if (COMIC_TYPE.equals("type")) {
+        COMIC_TYPE_NAME = "按分类";
+    }
 %>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>动漫之家-首页</title>
+    <title>动漫之家-首页【<%=COMIC_TYPE_NAME%>】</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport"
           content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=no;"/>
@@ -147,26 +156,15 @@
 <body>
 <!-- 表头 -->
 <div class="mydiv headdiv">
-    <a href="<%=APP_PATH%>/index.jsp">首页</a>&nbsp;&nbsp;&nbsp;<a href="<%=APP_PATH%>/goto/comic/comic.do">动漫之家</a>
+    <a href="<%=APP_PATH%>/index.jsp">首页</a>
+    &nbsp;&nbsp;&nbsp;
+    <a href="<%=APP_PATH%>/goto/comic/comic.do">动漫之家</a>
 </div>
 <!-- 内容 -->
 <div class="mydiv">
     <ul id="mainmenu_ul" class="mainmenu">
-        <li><a href="<%=APP_PATH%>/goto/comic/month.do"><b><img src="images/tb01.png"/></b><span>2021-11</span></a></li>
-        <li><a href="/"><b><img src="images/tb02.png"/></b><span>2021-10</span></a></li>
-        <li><a href="/"><b><img src="images/tb03.png"/></b><span>2021-09</span></a></li>
-        <li><a href="/"><b><img src="images/tb04.png"/></b><span>2021-08</span></a></li>
-        <li><a href="/"><b><img src="images/tb05.png"/></b><span>2021-07</span></a></li>
-        <li><a href="/"><b><img src="images/tb06.png"/></b><span>2021-06</span></a></li>
-        <li><a href="/"><b><img src="images/tb06.png"/></b><span>2021-05</span></a></li>
-        <li><a href="/"><b><img src="images/tb07.png"/></b><span>2021-04</span></a></li>
-        <li><a href="/"><b><img src="images/tb08.png"/></b><span>2021-03</span></a></li>
-        <li><a href="/"><b><img src="images/tb06.png"/></b><span>2021-02</span></a></li>
-        <li><a href="/"><b><img src="images/tb07.png"/></b><span>2021-01</span></a></li>
-        <li><a href="/"><b><img src="images/tb08.png"/></b><span>2020-12</span></a></li>
-        <li><a href="/"><b><img src="images/tb06.png"/></b><span>2020-11</span></a></li>
-        <li><a href="/"><b><img src="images/tb07.png"/></b><span>2020-10</span></a></li>
-        <li><a href="/"><b><img src="images/tb08.png"/></b><span>2020-09</span></a></li>
+        <li><a href="<%=APP_PATH%>/goto/comic/month.do"><b>0</b><span>2021-11</span></a></li>
+        <li><a href="#"><b>0</b><span>2021-10</span></a></li>
     </ul>
 </div>
 <!-- 分页 -->
@@ -203,6 +201,7 @@
 <script src="<%=APP_PATH%>/js/bootstrap.min.js"></script>
 <script type="text/javascript">
     var curPath = "<%=APP_PATH%>";
+    var COMIC_TYPE = "<%=COMIC_TYPE%>";
 </script>
 <!-- 加载js -->
 <script src="<%=APP_PATH%>/js/comic.js"></script>

@@ -7,7 +7,7 @@ var plist = new Page("listpagediv", "plist");
     var bean = {
         tableName: "comic_book",
         columns: ["cnt"],
-        month_name: month_name
+        book_type_name: book_type_name
     };
     $.ajax({
         url: curPath + "/comic/total.do",
@@ -31,8 +31,8 @@ function queryList(start_page) {
         page: start_page,
         pageNum: "15",
         tableName: "comic_book",
-        columns: ["month_name", "book_name", "book_desc", "title_img_name"],
-        month_name: month_name,
+        columns: ["month_name", "book_name", "book_desc", "title_img_name", "book_type_name"],
+        book_type_name: book_type_name,
         order_by_column: "book_name"
     };
     $.ajax({

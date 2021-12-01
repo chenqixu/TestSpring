@@ -1,12 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     String APP_PATH = request.getContextPath();
-    String month_name = request.getParameter("month_name");
+    String book_type_name = request.getParameter("book_type_name");
 %>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>动漫之家-<%=month_name%>【月份】</title>
+    <title>动漫之家-<%=book_type_name%>【类型】</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport"
           content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=no;"/>
@@ -99,9 +99,9 @@
 <div class="mydiv headdiv">
     <a href="<%=APP_PATH%>/index.jsp">首页</a>
     &nbsp;&nbsp;&nbsp;
-    <a href="<%=APP_PATH%>/goto/comic/comic.do">动漫之家</a>
+    <a href="<%=APP_PATH%>/goto/comic/comic.do?comic_type=type">动漫之家</a>
     ->
-    <a href="<%=APP_PATH%>/goto/comic/month.do?month_name=<%=month_name%>"><%=month_name%>
+    <a href="<%=APP_PATH%>/goto/comic/type.do?book_type_name=<%=book_type_name%>"><%=book_type_name%>
     </a>
 </div>
 <!-- 内容 -->
@@ -151,9 +151,9 @@
 <script src="<%=APP_PATH%>/js/bootstrap.min.js"></script>
 <script type="text/javascript">
     var curPath = "<%=APP_PATH%>";
-    var month_name = "<%=month_name%>";
+    var book_type_name = "<%=book_type_name%>";
 </script>
 <!-- 加载js -->
-<script src="<%=APP_PATH%>/js/month.js"></script>
+<script src="<%=APP_PATH%>/js/type.js"></script>
 </body>
 </html>

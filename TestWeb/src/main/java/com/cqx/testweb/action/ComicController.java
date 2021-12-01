@@ -41,12 +41,9 @@ public class ComicController {
     @ResponseBody
     public String queryTotalCnt(@RequestBody ComicPageRequestBean requestBean) {
         StringBuilder sql = new StringBuilder();
-        sql.append("select count(1) as cnt from ").append(requestBean.getTableName());
-        if (requestBean.getMonth_name() != null && requestBean.getMonth_name().length() > 0) {
-            sql.append(" where month_name='")
-                    .append(requestBean.getMonth_name())
-                    .append("'");
-        }
+        sql.append("select count(1) as cnt from ").append(requestBean.getTableName()).append(" where 1=1 ");
+        // where条件
+        sqlWhereBuilder(requestBean, sql);
         logger.debug("queryTotalCnt：{}", sql);
         return query(sql.toString());
     }
@@ -61,13 +58,14 @@ public class ComicController {
         int pageNum = requestBean.getPageNum();
         int startCnt = (page - 1) * pageNum;
         StringBuilder sql = new StringBuilder(sqlBuilder(requestBean));
-        sql.append(" from ")
-                .append(requestBean.getTableName());
-        if (requestBean.getMonth_name() != null && requestBean.getMonth_name().length() > 0) {
-            sql.append(" where month_name='")
-                    .append(requestBean.getMonth_name())
-                    .append("' ");
-        }
+        sql.append(" from ").append(requestBean.getTableName()).append(" where 1=1 ");
+        // where条件
+        sqlWhereBuilder(requestBean, sql);
+        // gorup by聚合
+        sqlGroupByBuilder(requestBean, sql);
+        // order by排序
+        sqlOrderByBuilder(requestBean, sql);
+        // 分页
         sql.append(" offset ")
                 .append(startCnt)
                 .append(" rows fetch next ")
@@ -84,18 +82,21 @@ public class ComicController {
     @ResponseBody
     public String queryDetailsList(@RequestBody ComicPageRequestBean requestBean) {
         StringBuilder sql = new StringBuilder(sqlBuilder(requestBean));
-        sql.append(" from ")
-                .append(requestBean.getTableName())
-                .append(" where month_name='")
-                .append(requestBean.getMonth_name())
-                .append("' and book_name='")
-                .append(requestBean.getBook_name())
-                .append("' ")
-        ;
+        sql.append(" from ").append(requestBean.getTableName()).append(" where 1=1 ");
+        // where条件
+        sqlWhereBuilder(requestBean, sql);
+        // order by排序
+        sqlOrderByBuilder(requestBean, sql);
         logger.debug("queryDetailsList：{}", sql);
         return query(sql.toString());
     }
 
+    /**
+     * 拼接查询字段
+     *
+     * @param requestBean
+     * @return
+     */
     private String sqlBuilder(ComicPageRequestBean requestBean) {
         StringBuilder sql = new StringBuilder();
         sql.append("select ");
@@ -108,6 +109,70 @@ public class ComicController {
         return sql.toString();
     }
 
+    /**
+     * 拼接where条件
+     *
+     * @param requestBean
+     * @param sql
+     */
+    private void sqlWhereBuilder(ComicPageRequestBean requestBean, StringBuilder sql) {
+        // where条件
+        if (requestBean.getMonth_name() != null && requestBean.getMonth_name().length() > 0) {
+            sql.append(" and month_name='")
+                    .append(requestBean.getMonth_name())
+                    .append("' ");
+        }
+        if (requestBean.getBook_name() != null && requestBean.getBook_name().length() > 0) {
+            sql.append(" and book_name='")
+                    .append(requestBean.getBook_name())
+                    .append("' ");
+        }
+        if (requestBean.getBook_type_name() != null && requestBean.getBook_type_name().length() > 0) {
+            sql.append(" and book_type_name='")
+                    .append(requestBean.getBook_type_name())
+                    .append("' ");
+        }
+    }
+
+    /**
+     * 拼接排序条件
+     *
+     * @param requestBean
+     * @param sql
+     */
+    private void sqlOrderByBuilder(ComicPageRequestBean requestBean, StringBuilder sql) {
+        // order by排序
+        if (requestBean.getOrder_by_column() != null && requestBean.getOrder_by_column().length() > 0) {
+            sql.append(" order by ");
+            if (requestBean.isOrder_is_cnt()) {
+                sql.append("count(1) desc,");
+            }
+            if (!requestBean.isOrder_is_length()) {
+                sql.append("length(").append(requestBean.getOrder_by_column()).append("),");
+            }
+            sql.append(requestBean.getOrder_by_column());
+        }
+    }
+
+    /**
+     * 拼接聚合条件
+     *
+     * @param requestBean
+     * @param sql
+     */
+    private void sqlGroupByBuilder(ComicPageRequestBean requestBean, StringBuilder sql) {
+        // group by
+        if (requestBean.getGroup_by_column() != null && requestBean.getGroup_by_column().length() > 0) {
+            sql.append(" group by ").append(requestBean.getGroup_by_column());
+        }
+    }
+
+    /**
+     * 查询
+     *
+     * @param sql
+     * @return
+     */
     private String query(String sql) {
         List<Map<String, String>> mapList = jdbcTemplate.query(sql, new RowMapper<Map<String, String>>() {
             @Override

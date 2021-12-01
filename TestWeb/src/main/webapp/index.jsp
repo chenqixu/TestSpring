@@ -21,7 +21,7 @@
     <br>
     <li><a href="<%=APP_PATH%>/goto/comic/comic.do">动漫之家(月份)</a></li>
     <br>
-    <li><a href="<%=APP_PATH%>/goto/comic/comic.do">动漫之家(分类)</a></li>
+    <li><a href="<%=APP_PATH%>/goto/comic/comic.do?comic_type=type">动漫之家(分类)</a></li>
 </ul>
 </body>
 </html>
