@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 让Servlet支持spring注入方式使用Spring Bean
+ * 让Servlet支持spring注入方式使用Spring Bean<br>
+ * 2022-05-12 autowireBean会产生BeansException，需要引入spring-core包
  */
 public abstract class SpringSupportServlet extends HttpServlet {
 

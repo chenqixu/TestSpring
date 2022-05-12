@@ -18,7 +18,7 @@ public class WebServiceMgtImpl implements WebServiceMgt {
     }
 
     public List<ServiceBean> queryService(ServiceBean serviceBean) throws Exception {
-        List<ServiceBean> serviceBeanList = new ArrayList();
+        List<ServiceBean> serviceBeanList = new ArrayList<>();
 //        DBResult ret = this.webServiceDao.queryService(serviceBean);
 //        if (ret.iErrorCode == 0 && ret.iSum > 0) {
 //            ServiceBean tempServiceBean = null;
@@ -33,11 +33,17 @@ public class WebServiceMgtImpl implements WebServiceMgt {
 //                serviceBeanList.add(tempServiceBean);
 //            }
 //        }
+        // 公共服务
+        ServiceBean commonService = new ServiceBean();
+        commonService.setServiceImplClass("com.cqx.testspring.webservice.common.service.CommonServiceImpl");
+        commonService.setServiceName("CommonServiceInf");
+        serviceBeanList.add(commonService);
 
-        ServiceBean tempServiceBean = new ServiceBean();
-        tempServiceBean.setServiceImplClass("com.cqx.testspring.webservice.common.service.CommonServiceImpl");
-        tempServiceBean.setServiceName("CommonServiceInf");
-        serviceBeanList.add(tempServiceBean);
+        // 资源服务化服务
+        ServiceBean rsmgrService = new ServiceBean();
+        rsmgrService.setServiceImplClass("com.cqx.testspring.webservice.rsmgr.service.RsmgrServiceImpl");
+        rsmgrService.setServiceName("RsmgrServiceInf");
+        serviceBeanList.add(rsmgrService);
 
         return serviceBeanList;
     }
@@ -45,7 +51,7 @@ public class WebServiceMgtImpl implements WebServiceMgt {
     @Deprecated
     public ServiceListBean queryServiceListBean(ServiceBean serviceBean, String start, String pageSize) throws Exception {
         ServiceListBean serviceListBean = new ServiceListBean();
-        List<ServiceBean> serviceBeanList = new ArrayList();
+        List<ServiceBean> serviceBeanList = new ArrayList<>();
 //        DBResult ret = this.webServiceDao.queryService(serviceBean, Integer.valueOf(start), Integer.valueOf(pageSize));
 //        if (ret.iErrorCode == 0 && ret.iSum > 0) {
 //            ServiceBean tempServiceBean = null;
