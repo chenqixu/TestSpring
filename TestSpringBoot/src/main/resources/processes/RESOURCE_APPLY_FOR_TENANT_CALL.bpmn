@@ -15,7 +15,7 @@
     <sequenceFlow id="flow3" name="flow3" sourceRef="gateway1" targetRef="userTask2">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${agree=='1'}]]></conditionExpression>
     </sequenceFlow>
-    <userTask activiti:assignee="9990888" activiti:exclusive="true" id="userTask2" name="资源配置审批">
+    <userTask activiti:assignee="1001531" activiti:exclusive="true" id="userTask2" name="资源配置审批">
       <extensionElements>
         <modeler:initiator-can-complete xmlns:modeler="http://activiti.com/modeler"><![CDATA[false]]></modeler:initiator-can-complete>
       </extensionElements>
