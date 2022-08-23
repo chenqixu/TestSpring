@@ -30,6 +30,7 @@ public class VideoServlet extends SpringSupportServlet {
         endWithList.add("mp4");
         endWithList.add("avi");
         endWithList.add("wmv");
+        endWithList.add("rmvb");
     }
 
     /**

@@ -16,12 +16,12 @@
         success: function (data) {
             // 标题
             var ul_innerhtml = "<div>";
-            if (data.length > 0) {
-                ul_innerhtml = ul_innerhtml + "<img loading='lazy' src='"
-                    + curPath + "/res/comic/kamuro/"
-                    + data[0].MONTH_NAME + "/" + data[0].BOOK_NAME + "/"
-                    + data[0].IMG_NAME + "' alt='" + book_desc + "'/>";
-            }
+            // if (data.length > 0) {
+            //     ul_innerhtml = ul_innerhtml + "<img loading='lazy' src='"
+            //         + curPath + "/res/comic/kamuro/"
+            //         + data[0].MONTH_NAME + "/" + data[0].BOOK_NAME + "/"
+            //         + data[0].IMG_NAME + "' alt='" + book_desc + "'/>";
+            // }
             ul_innerhtml = ul_innerhtml + "<p>" + book_desc + "</p></div>";
             // 内容
             for (let index = 0; index < data.length; index++) {
