@@ -112,6 +112,18 @@
             <version>6.10</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- prometheus -->
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient</artifactId>
+            <version>0.9.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_pushgateway</artifactId>
+            <version>0.9.0</version>
+        </dependency>
     </dependencies>
 
     <build>
