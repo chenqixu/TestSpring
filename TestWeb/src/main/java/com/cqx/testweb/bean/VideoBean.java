@@ -16,7 +16,7 @@ public class VideoBean {
     public VideoBean(String index, String name, String path, String endWith, String APP_PATH) {
         this.index = index;
         this.name = name;
-        this.path = path;
+        this.path = path.replace(APP_PATH, "");
         this.endWith = endWith;
         this.APP_PATH = APP_PATH;
     }
@@ -34,7 +34,12 @@ public class VideoBean {
     }
 
     public String toString() {
-        return "index：" + index + "，name：" + name + "，path：" + path;
+        return "index：" + index
+                + "，name：" + name
+                + "，path：" + path
+                + "，endWith：" + endWith
+                + "，getRealAllName：" + getRealAllName()
+                + "，singleFileName：" + singleFileName();
     }
 
     public String getIndex() {

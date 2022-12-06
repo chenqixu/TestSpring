@@ -17,11 +17,17 @@
 </head>
 <body>
 <ul>
-    <li><a href="<%=APP_PATH%>/video?index=1">视频集锦</a></li>
+    <li><a href="<%=APP_PATH%>/video?dir=normal&index=1">视频集锦</a></li>
     <br>
-    <li><a href="<%=APP_PATH%>/goto/comic/comic.do">动漫之家(月份)</a></li>
+    <li><a href="<%=APP_PATH%>/video?dir=pornhub&index=1">PornHub视频</a></li>
     <br>
-    <li><a href="<%=APP_PATH%>/goto/comic/comic.do?comic_type=type">动漫之家(分类)</a></li>
+    <li><a href="<%=APP_PATH%>/video?dir=comic&index=1">动漫视频</a></li>
+    <br>
+    <li><a href="<%=APP_PATH%>/video?dir=film&index=1">电影集锦</a></li>
+    <br>
+    <li><a href="<%=APP_PATH%>/goto/comic/comic.do">漫画之家(月份)</a></li>
+    <br>
+    <li><a href="<%=APP_PATH%>/goto/comic/comic.do?comic_type=type">漫画之家(分类)</a></li>
 </ul>
 </body>
 </html>

@@ -14,6 +14,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * VideoServlet
@@ -23,8 +24,11 @@ import java.util.List;
 public class VideoServlet extends SpringSupportServlet {
     private static final Logger logger = LoggerFactory.getLogger(VideoServlet.class);
     private static List<String> endWithList = new ArrayList<>();
-    private LinkedHashMap<String, VideoBean> videoMap = new LinkedHashMap<>();
     private static final String FS = File.separator;
+    private LinkedHashMap<String, LinkedHashMap<String, VideoBean>> videoMap = new LinkedHashMap<>();
+    private LinkedHashMap<String, AtomicInteger> indexMap = new LinkedHashMap<>();
+    private String RealPath;
+    private String ContextPath;
 
     static {
         endWithList.add("mp4");
@@ -33,38 +37,78 @@ public class VideoServlet extends SpringSupportServlet {
         endWithList.add("rmvb");
     }
 
+    public VideoServlet() {
+    }
+
+    public VideoServlet(String RealPath) {
+        this.RealPath = RealPath;
+    }
+
+    private void addVideo(String dir, VideoBean videoBean) {
+        LinkedHashMap<String, VideoBean> _map = videoMap.get(dir);
+        if (_map == null) {
+            _map = new LinkedHashMap<>();
+            videoMap.put(dir, _map);
+            AtomicInteger _atomicInteger = new AtomicInteger(1);
+            indexMap.put(dir, _atomicInteger);
+        }
+        _map.put(indexMap.get(dir).getAndIncrement() + "", videoBean);
+    }
+
     /**
      * 初始化
      */
     @Override
     public void prepare() {
-        String APP_PATH = this.getServletContext().getRealPath(FS);
-        logger.info("============APP_PATH：{}", APP_PATH);
-        int i = 1;
+        if (ContextPath == null || ContextPath.length() == 0) {
+            ContextPath = this.getServletContext().getContextPath();
+        }
+        if (RealPath == null || RealPath.length() == 0) {
+            RealPath = FileUtil.endWith(this.getServletContext().getRealPath(""));
+        }
+        logger.info("============ContextPath：{}", ContextPath);
+        logger.info("============RealPath：{}", RealPath);
         //扫描res/video下的目录
-        for (String file : FileUtil.listFile(APP_PATH + "res" + FS + "video" + FS)) {
+        for (String file : FileUtil.listFile(RealPath + "res" + FS + "video" + FS)) {
             String path = "res" + FS + "video" + FS + file + FS;
             logger.info("====扫描到res{}video下的目录：{}", FS, path);
-            //根据文件后缀，扫描res/video下目录的目录
-            for (String endWith : endWithList) {
-                for (String video : FileUtil.listFileEndWith(APP_PATH + path, endWith)) {
-                    VideoBean videoBean = new VideoBean(i + "", video, path, endWith, APP_PATH);
-                    videoMap.put(i + "", videoBean);
-                    //尝试读取对应的txt文件
-                    String content = FileManager.readFileHeader(videoBean.getRealAllName(), "GBK");
-                    videoBean.setContent(content);
-                    logger.info("=扫描到：{}，内容为：{}", videoMap.get(i + ""), content);
-                    i++;
+            scan(file, RealPath, RealPath + path);
+        }
+    }
+
+    private void scan(String dir, String APP_PATH, String _path) {
+        for (String file : FileUtil.listFile(_path)) {
+            logger.info("file: {}, isFile: {}, isDirectory: {}"
+                    , file, FileUtil.isFile(_path + file), FileUtil.isDirectory(_path + file));
+            if (FileUtil.isDirectory(_path + file)) {
+                scan(dir, APP_PATH, FileUtil.endWith(_path + file));
+            } else {
+                String endWith = file.substring(file.lastIndexOf(".") + 1);
+                for (String _endWith : endWithList) {
+                    if (endWith.contains(_endWith)) {
+                        VideoBean videoBean = new VideoBean("", file, _path, endWith, APP_PATH);
+                        //尝试读取对应的txt文件
+                        String content = FileManager.readFileHeader(videoBean.getRealAllName(), "GBK");
+                        videoBean.setContent(content);
+                        addVideo(dir, videoBean);
+                        logger.info("=扫描到：{}，内容为：{}", videoBean, content);
+                        break;
+                    }
                 }
             }
         }
     }
 
+    public VideoBean getVideoBean(String dir, String index) {
+        return videoMap.get(dir).get(index);
+    }
+
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String APP_PATH = request.getContextPath();
+        String dir = request.getParameter("dir");
         String index = request.getParameter("index");
-        logger.info("============index : {}", index);
+        logger.info("============APP_PATH：{}，dir：{}，index : {}", APP_PATH, dir, index);
         if (index == null || index.trim().length() == 0) {
             index = "1";
         }
@@ -89,18 +133,21 @@ public class VideoServlet extends SpringSupportServlet {
                 "        <div class=\"span12\">\n" +
                 "            <div class=\"row-fluid\">\n" +
                 "                <div class=\"span4\">\n" +
-                "                    <p align=\"center\">" + videoMap.get(index).getContent() + "</p><br>" +
+                "                    <a href=\"" + APP_PATH + "\\index.jsp\">首页</a>\n" +
+                "                </div>\n" +
+                "                <div class=\"span4\">\n" +
+                "                    <p align=\"center\">" + videoMap.get(dir).get(index).getContent() + "</p><br>" +
                 "                    <video id=\"video\" controls preload=\"auto\" width=\"350px\" height=\"300px\">\n" +
-                "                        <source src=\"" + APP_PATH + "\\" + videoMap.get(index).getAllName() + "\" type=\"video/mp4\">\n" +
+                "                        <source src=\"" + APP_PATH + "\\" + videoMap.get(dir).get(index).getAllName() + "\" type=\"video/mp4\">\n" +
                 "                    </video>\n" +
                 "                </div>\n" +
                 "            </div>\n" +
                 "            <div class=\"pagination\">\n" +
                 "                <ul>\n");
-        for (int i = 1; i < videoMap.size() + 1; i++) {
+        for (int i = 1; i <= videoMap.get(dir).size() + 1; i++) {
             writer.write("<li>\n" +
-                    "                        <a href=\"" + APP_PATH + "/video?index=" + i + "\">" + i + "\n" +
-                    videoMap.get(i + "").getContent() +
+                    "                        <a href=\"" + APP_PATH + "/video?dir=" + dir + "&index=" + i + "\">" + i + "\n" +
+                    videoMap.get(dir).get(i + "").getContent() +
                     "                        </a>\n" +
                     "                    </li>");
         }
