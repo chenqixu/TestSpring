@@ -91,6 +91,19 @@
             </exclusions>
         </dependency>
 
+        <!-- TestNet -->
+        <dependency>
+            <groupId>com.cqx</groupId>
+            <artifactId>NettySDTP</artifactId>
+            <version>1.0.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>TestCommon</artifactId>
+                    <groupId>com.cqx</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
         <!-- pcap -->
         <dependency>
             <groupId>io.pkts</groupId>
