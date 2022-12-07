@@ -108,7 +108,12 @@ public class VideoServlet extends SpringSupportServlet {
         String APP_PATH = request.getContextPath();
         String dir = request.getParameter("dir");
         String index = request.getParameter("index");
-        logger.info("============APP_PATH：{}，dir：{}，index : {}", APP_PATH, dir, index);
+        LinkedHashMap<String, VideoBean> _videoBeanMap = videoMap.get(dir);
+        logger.info("============APP_PATH：{}，dir：{}，index : {}，_videoBeanMap.size：{}"
+                , APP_PATH, dir, index, _videoBeanMap != null ? _videoBeanMap.size() : -1);
+        if (_videoBeanMap == null) {
+            _videoBeanMap = new LinkedHashMap<>();
+        }
         if (index == null || index.trim().length() == 0) {
             index = "1";
         }
@@ -136,18 +141,18 @@ public class VideoServlet extends SpringSupportServlet {
                 "                    <a href=\"" + APP_PATH + "\\index.jsp\">首页</a>\n" +
                 "                </div>\n" +
                 "                <div class=\"span4\">\n" +
-                "                    <p align=\"center\">" + videoMap.get(dir).get(index).getContent() + "</p><br>" +
+                "                    <p align=\"center\">" + (_videoBeanMap.size() > 0 ? _videoBeanMap.get(index).getContent() : "404") + "</p><br>" +
                 "                    <video id=\"video\" controls preload=\"auto\" width=\"350px\" height=\"300px\">\n" +
-                "                        <source src=\"" + APP_PATH + "\\" + videoMap.get(dir).get(index).getAllName() + "\" type=\"video/mp4\">\n" +
+                "                        <source src=\"" + APP_PATH + "\\" + (_videoBeanMap.size() > 0 ? _videoBeanMap.get(index).getAllName() : "404") + "\" type=\"video/mp4\">\n" +
                 "                    </video>\n" +
                 "                </div>\n" +
                 "            </div>\n" +
                 "            <div class=\"pagination\">\n" +
                 "                <ul>\n");
-        for (int i = 1; i <= videoMap.get(dir).size() + 1; i++) {
+        for (int i = 1; i <= _videoBeanMap.size() + 1; i++) {
             writer.write("<li>\n" +
                     "                        <a href=\"" + APP_PATH + "/video?dir=" + dir + "&index=" + i + "\">" + i + "\n" +
-                    videoMap.get(dir).get(i + "").getContent() +
+                    _videoBeanMap.get(i + "").getContent() +
                     "                        </a>\n" +
                     "                    </li>");
         }
