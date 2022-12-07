@@ -109,11 +109,11 @@ public class VideoServlet extends SpringSupportServlet {
         String dir = request.getParameter("dir");
         String index = request.getParameter("index");
         LinkedHashMap<String, VideoBean> _videoBeanMap = videoMap.get(dir);
-        logger.info("============APP_PATH：{}，dir：{}，index : {}，_videoBeanMap.size：{}"
-                , APP_PATH, dir, index, _videoBeanMap != null ? _videoBeanMap.size() : -1);
         if (_videoBeanMap == null) {
             _videoBeanMap = new LinkedHashMap<>();
         }
+        logger.info("============APP_PATH：{}，dir：{}，index : {}，_videoBeanMap.size：{}"
+                , APP_PATH, dir, index, _videoBeanMap.size());
         if (index == null || index.trim().length() == 0) {
             index = "1";
         }
