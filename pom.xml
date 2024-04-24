@@ -71,5 +71,10 @@
         <module>TestSpringCXF</module>
         <module>TestWeb</module>
         <module>TestSpringCXFSvc</module>
+        <module>TestSpringWin7</module>
+        <module>TestSpringNodeManager</module>
+        <module>TestSpringResourceManager</module>
+        <module>TestSpringCommon</module>
+        <module>TestSpringClient</module>
     </modules>
 </project>
