@@ -45,4 +45,12 @@ public class PhonePhotoServer {
             logger.info("{}", file);
         }
     }
+
+    @RequestMapping(value = "/list", method = {RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public void list() {
+        logger.info("file_path: {}", file_path);
+        for (String file : FileUtil.listFile(file_path)) {
+            logger.info("{}", file);
+        }
+    }
 }
