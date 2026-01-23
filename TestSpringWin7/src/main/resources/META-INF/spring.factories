@@ -1,0 +1,2 @@
+#org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+#com.cqx.testpring.win7.db.MultiDSAutoConfiguration

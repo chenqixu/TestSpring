@@ -31,6 +31,9 @@
         <!--<oracle.version>11.2.0.4.0</oracle.version>-->
         <oracle.artifactId>ojdbc7</oracle.artifactId>
         <oracle.version>12.1.0.2</oracle.version>
+        <postgresql.version>9.4.1212</postgresql.version>
+        <oceanbase.version>2.4.1</oceanbase.version>
+        <druid.version>1.2.27</druid.version>
 
         <fastjson.version>1.2.31</fastjson.version>
         <lombok.version>1.16.18</lombok.version>
@@ -47,6 +50,16 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>tomcat-jdbc</artifactId>
+                    <groupId>org.apache.tomcat</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
         <!-- TestCommon -->
         <dependency>
@@ -60,11 +73,78 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+        <!-- lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>RELEASE</version>
             <scope>compile</scope>
+        </dependency>
+
+        <!-- commons -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.3.2</version>
+        </dependency>
+
+        <!-- aspect -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.8.13</version>
+        </dependency>
+
+        <!-- db -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.oceanbase</groupId>
+            <artifactId>oceanbase-client</artifactId>
+            <version>${oceanbase.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>${druid.version}</version>
+        </dependency>
+
+        <!-- json -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
+
+        <!-- nl-bd -->
+        <dependency>
+            <groupId>com.newland.bd</groupId>
+            <artifactId>nl-bd-commons-spring-boot-starter</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.newland.bd.utils</groupId>
+            <artifactId>nl-bd-common-utils</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.newland.bd.ms</groupId>
+            <artifactId>nl-bd-starter-multidb</artifactId>
+            <version>1.1.5-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.newland.bd.ms</groupId>
+            <artifactId>nl-bd-starter-core</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.newland.bd.ms</groupId>
+            <artifactId>nl-bd-starter-ws</artifactId>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 </project>

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
- * TODO
+ * 拦截控制类
  *
  * @author chenqixu
  */
